@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS rules */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+.text-shadow {
+  text-shadow: 0 0 7px rgba(255,255,255,.3), 0 0 3px rgba(255,255,255,.3);
+}
+
+@keyframes slide-horizontal {
+  0%, 25% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  30%, 95% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-text {
+  animation: slide-horizontal 4s infinite;
+}
+
