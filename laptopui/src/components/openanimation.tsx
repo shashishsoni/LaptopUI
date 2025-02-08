@@ -193,23 +193,78 @@ export default function LaptopAnimationPage() {
           </div>
         </div>
 
-        {/* New Specs Section */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
-          <div className="bg-black/30 backdrop-blur-sm p-4 rounded-xl border border-white/10">
-            <h3 className="text-cyan-400 text-lg font-semibold">CPU</h3>
-            <p className="text-white">Intel i9-13980HX</p>
-          </div>
-          <div className="bg-black/30 backdrop-blur-sm p-4 rounded-xl border border-white/10">
-            <h3 className="text-purple-500 text-lg font-semibold">RAM</h3>
-            <p className="text-white">64GB DDR5</p>
-          </div>
-          <div className="bg-black/30 backdrop-blur-sm p-4 rounded-xl border border-white/10">
-            <h3 className="text-pink-600 text-lg font-semibold">Storage</h3>
-            <p className="text-white">4TB NVMe SSD</p>
-          </div>
-          <div className="bg-black/30 backdrop-blur-sm p-4 rounded-xl border border-white/10">
-            <h3 className="text-cyan-400 text-lg font-semibold">Battery</h3>
-            <p className="text-white">90Wh</p>
+        {/* Enhanced Specs Section with Horizontal Scroll */}
+        <div className="mt-12 relative overflow-hidden py-8">
+          <h2 className="text-3xl font-bold text-center mb-8 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-600">
+            Technical Specifications
+          </h2>
+          
+          <div className="specs-scroll-container relative">
+            <div className="animate-scroll-left flex gap-4 px-4">
+              {/* First Set of Specs */}
+              <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="flex items-center mb-4">
+                  <svg className="w-8 h-8 text-cyan-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <h3 className="text-cyan-400 text-xl font-semibold">Processor</h3>
+                </div>
+                <p className="text-white text-lg font-bold">Intel i9-13980HX</p>
+                <p className="text-gray-400 mt-2">24 Cores | 32 Threads</p>
+                <p className="text-gray-400">Up to 5.6GHz Turbo</p>
+              </div>
+
+              <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 group">
+                <div className="flex items-center mb-4">
+                  <svg className="w-8 h-8 text-purple-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <h3 className="text-purple-500 text-xl font-semibold">Graphics</h3>
+                </div>
+                <p className="text-white text-lg font-bold">NVIDIA RTX 4090</p>
+                <p className="text-gray-400 mt-2">24GB GDDR6X</p>
+                <p className="text-gray-400">Ray Tracing Cores</p>
+              </div>
+
+              <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-pink-500/50 transition-all duration-300 group">
+                <div className="flex items-center mb-4">
+                  <svg className="w-8 h-8 text-pink-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                  <h3 className="text-pink-600 text-xl font-semibold">Memory</h3>
+                </div>
+                <p className="text-white text-lg font-bold">64GB DDR5</p>
+                <p className="text-gray-400 mt-2">5600MHz Speed</p>
+                <p className="text-gray-400">Dual Channel</p>
+              </div>
+
+              <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="flex items-center mb-4">
+                  <svg className="w-8 h-8 text-cyan-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                  </svg>
+                  <h3 className="text-cyan-400 text-xl font-semibold">Storage</h3>
+                </div>
+                <p className="text-white text-lg font-bold">4TB NVMe SSD</p>
+                <p className="text-gray-400 mt-2">PCIe Gen 4.0</p>
+                <p className="text-gray-400">7000MB/s Read</p>
+              </div>
+
+              <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 group">
+                <div className="flex items-center mb-4">
+                  <svg className="w-8 h-8 text-purple-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <h3 className="text-purple-500 text-xl font-semibold">Display</h3>
+                </div>
+                <p className="text-white text-lg font-bold">17.3" 4K OLED</p>
+                <p className="text-gray-400 mt-2">240Hz Refresh Rate</p>
+                <p className="text-gray-400">3ms Response Time</p>
+              </div>
+
+              {/* Duplicate cards for infinite scroll */}
+              {/* ... First set of cards repeated ... */}
+            </div>
           </div>
         </div>
       </div>
@@ -334,10 +389,106 @@ export default function LaptopAnimationPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-16">
           <h1 className="mt-10 text-5xl font-bold text-center mb-12 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-600">
             Welcome to the Future
           </h1>
+
+          {/* Video Grid Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            {/* Main Feature Video */}
+            <div className="relative h-[400px] rounded-2xl overflow-hidden group">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+              >
+                <source src="/video/Untitled design_2.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-2xl font-bold text-cyan-400 mb-2">Ultimate Performance</h3>
+                <p className="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Experience gaming at its finest with our latest gaming laptop
+                </p>
+              </div>
+            </div>
+
+            {/* Secondary Videos Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Video Card 1 */}
+              <div className="relative h-[190px] rounded-xl overflow-hidden group">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                >
+                  <source src="/video/keyboard.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-xl font-bold text-purple-500">RGB Keyboard</h3>
+                </div>
+              </div>
+
+              {/* Video Card 2 */}
+              <div className="relative h-[190px] rounded-xl overflow-hidden group">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                >
+                  <source src="/video/cooling.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-xl font-bold text-pink-600">Advanced Cooling</h3>
+                </div>
+              </div>
+
+              {/* Video Card 3 */}
+              <div className="relative h-[190px] rounded-xl overflow-hidden group">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                >
+                  <source src="/video/display.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-xl font-bold text-cyan-400">4K Display</h3>
+                </div>
+              </div>
+
+              {/* Video Card 4 */}
+              <div className="relative h-[190px] rounded-xl overflow-hidden group">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                >
+                  <source src="/video/performance.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-xl font-bold text-purple-500">RTX Performance</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-2xl border border-white/20 hover:border-purple-500/50 transition-all duration-300">
               <h2 className="text-2xl font-bold mb-4 text-cyan-400">Performance</h2>
@@ -357,3 +508,4 @@ export default function LaptopAnimationPage() {
     </div>
   );
 }
+
