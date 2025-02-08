@@ -45,3 +45,131 @@ body {
   animation: slide-horizontal 4s infinite;
 }
 
+.laptop-bottom path {
+  fill: #959C9E;
+}
+
+.laptop-bottom rect {
+  fill: #EBEFF0;
+}
+
+.laptop-lid {
+  fill: #F5F7F8;
+  transition: fill 0.3s ease;
+  transform-origin: bottom center;
+  will-change: d, transform;
+}
+
+.new-content {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.shadow-neon {
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature-card {
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(147, 51, 234, 0.3);
+}
+
+.text-gradient {
+  background-size: 200% 200%;
+  animation: gradient 4s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rgb-strip {
+  animation: rgbFlow 3s linear infinite;
+}
+
+@keyframes rgbFlow {
+  0% { background: linear-gradient(90deg, #ff0000, #00ff00); }
+  33% { background: linear-gradient(90deg, #00ff00, #0000ff); }
+  66% { background: linear-gradient(90deg, #0000ff, #ff0000); }
+  100% { background: linear-gradient(90deg, #ff0000, #00ff00); }
+}
+
+.gaming-accent {
+  filter: drop-shadow(0 0 5px #ff0066);
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translate(10vw, 10vh); }
+  50% { transform: translate(15vw, 15vh); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translate(80vw, 30vh); }
+  50% { transform: translate(85vw, 35vh); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translate(40vw, 80vh); }
+  50% { transform: translate(45vw, 85vh); }
+}
+
+.animate-float-1 { animation: float-1 15s infinite ease-in-out; }
+.animate-float-2 { animation: float-2 20s infinite ease-in-out; }
+.animate-float-3 { animation: float-3 18s infinite ease-in-out; }
+
+.gaming-logo {
+  filter: drop-shadow(0 0 10px rgba(255, 0, 102, 0.5));
+}
+
+.rgb-edge {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+.performance-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.stat-text, .info-text {
+  opacity: 0;
+}
+
+.content-wrapper {
+  opacity: 0;
+  will-change: opacity;
+}
+
+.screen-content rect {
+  transition: fill 0.3s ease;
+}
+
+.screen-bg {
+  opacity: 0.9;
+}
+
+.status-indicator {
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.status-indicator {
+  animation: pulse 2s infinite;
+}
+
+.screen-content {
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
