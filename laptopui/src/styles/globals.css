@@ -173,3 +173,33 @@ body {
   will-change: transform, opacity;
 }
 
+@layer utilities {
+  .specs-scroll-container {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .animate-scroll-left {
+    animation: scroll 40s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pause animation on hover */
+  .specs-scroll-container:hover .animate-scroll-left {
+    animation-play-state: paused;
+  }
+}
+
