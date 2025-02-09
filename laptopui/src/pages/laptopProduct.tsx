@@ -1,60 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-
-interface LaptopProduct {
-  id: number;
-  name: string;
-  description: string;
-  images: string[];
-  video: string;
-  price: string;
-  specs: {
-    title: string;
-    value: string;
-    icon: string;
-  }[];
-}
-
-const laptopProduct: LaptopProduct = {
-  id: 1,
-  name: "ROG Strix SCAR 17",
-  description: "Experience next-level gaming with our most powerful laptop ever.",
-  images: [
-    "/image/asus1.webp",
-    "/image/asus2.jpg",
-    "/image/asus3.jpg",
-    "/image/asus4.png",
-  ],
-  video: "/video/asusvideo.mp4",
-  price: "$2,499",
-  specs: [
-    {
-      title: 'Processor',
-      value: 'Intel i9-13980HX',
-      icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z',
-    },
-    {
-      title: 'Graphics',
-      value: 'NVIDIA RTX 4090',
-      icon: 'M12 2l7 7-7 7-7-7 7-7zm0 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z',
-    },
-    {
-      title: 'Memory',
-      value: '64GB DDR5 RAM',
-      icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z',
-    },
-    {
-      title: 'Storage',
-      value: '2TB NVMe SSD',
-      icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z',
-    },
-  ],
-};
+import type { LaptopProduct } from '../data/asusdata';
+import { asusLaptops } from '../data/asusdata';
 
 const LaptopProduct = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeLaptop, setActiveLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const rotationInterval = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  const handleNext = () => {
+    setActiveLaptop((prev) => (prev + 1) % asusLaptops.length);
+  };
+
+  const handlePrev = () => {
+    setActiveLaptop((prev) => (prev - 1 + asusLaptops.length) % asusLaptops.length);
+  };
+
+  useEffect(() => {
+    gsap.to('.laptop-content', {
+      opacity: 0,
+      x: -20,
+      duration: 0.3,
+      onComplete: () => {
+        gsap.to('.laptop-content', {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+        });
+      },
+    });
+  }, [activeLaptop]);
 
   const getSmallCardContent = (cardIndex: number) => {
     const contentIndex = (cardIndex - activeIndex + 4) % 5;
@@ -67,7 +43,7 @@ const LaptopProduct = () => {
             loop
             muted
             playsInline
-            src={laptopProduct.video}
+            src={asusLaptops[activeLaptop].video}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/50" />
         </div>
@@ -76,8 +52,8 @@ const LaptopProduct = () => {
     return (
       <div className="relative w-full h-full overflow-hidden">
         <img
-          src={laptopProduct.images[contentIndex - 1]}
-          alt={`${laptopProduct.name} view ${contentIndex}`}
+          src={asusLaptops[activeLaptop].images[contentIndex - 1]}
+          alt={`${asusLaptops[activeLaptop].name} view ${contentIndex}`}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/50" />
@@ -148,12 +124,12 @@ const LaptopProduct = () => {
                     loop
                     muted
                     playsInline
-                    src={laptopProduct.video}
+                    src={asusLaptops[activeLaptop].video}
                   />
                 ) : (
                   <img
-                    src={laptopProduct.images[activeIndex - 1]}
-                    alt={`${laptopProduct.name} view ${activeIndex}`}
+                    src={asusLaptops[activeLaptop].images[activeIndex - 1]}
+                    alt={`${asusLaptops[activeLaptop].name} view ${activeIndex}`}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 )}
@@ -163,17 +139,17 @@ const LaptopProduct = () => {
                   <div className="space-y-6">
                     <div className="flex justify-between items-start">
                       <div className="space-y-2">
-                        <h2 className="text-4xl font-bold text-white">{laptopProduct.name}</h2>
+                        <h2 className="text-4xl font-bold text-white">{asusLaptops[activeLaptop].name}</h2>
                         <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">
-                          {laptopProduct.description}
+                          {asusLaptops[activeLaptop].description}
                         </p>
                       </div>
-                      <span className="text-3xl font-bold text-cyan-400 ml-8">{laptopProduct.price}</span>
+                      <span className="text-3xl font-bold text-cyan-400 ml-8">{asusLaptops[activeLaptop].price}</span>
                     </div>
                     
                     <div className="flex items-center justify-between pt-4 border-t border-white/10">
                       <div className="flex gap-6">
-                        {laptopProduct.specs.slice(0, 2).map((spec) => (
+                        {asusLaptops[activeLaptop].specs.slice(0, 2).map((spec) => (
                           <div key={spec.title} className="flex items-center space-x-2 text-gray-300">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={spec.icon} />
@@ -212,11 +188,36 @@ const LaptopProduct = () => {
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 py-20 px-6">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold text-center mb-20 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-          Gaming Laptops
-        </h1>
+        <div className="flex justify-between items-center mb-12">
+          <button
+            onClick={handlePrev}
+            className="p-4 rounded-full bg-black/20 hover:bg-purple-500/20 transition-all duration-300"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <div className="laptop-content text-center">
+            <div className="text-purple-400 text-xl mb-4">
+              {asusLaptops[activeLaptop].brand} {asusLaptops[activeLaptop].category} Series
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+              {asusLaptops[activeLaptop].name}
+            </h1>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-16 mx-auto">
+          <button
+            onClick={handleNext}
+            className="p-4 rounded-full bg-black/20 hover:bg-purple-500/20 transition-all duration-300"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="laptop-content grid grid-cols-1 md:grid-cols-6 gap-6 mb-16 mx-auto">
           {[0, 1, 2, 3, 4].map((index) => (
             <div
               key={index}
@@ -249,12 +250,12 @@ const LaptopProduct = () => {
                           loop
                           muted
                           playsInline
-                          src={laptopProduct.video}
+                          src={asusLaptops[activeLaptop].video}
                         />
                       ) : (
                         <img
-                          src={laptopProduct.images[activeIndex - 1]}
-                          alt={`${laptopProduct.name} view ${activeIndex}`}
+                          src={asusLaptops[activeLaptop].images[activeIndex - 1]}
+                          alt={`${asusLaptops[activeLaptop].name} view ${activeIndex}`}
                           className="absolute inset-0 w-full h-full object-cover"
                         />
                       )}
@@ -264,17 +265,17 @@ const LaptopProduct = () => {
                         <div className="space-y-6">
                           <div className="flex justify-between items-start">
                             <div className="space-y-2">
-                              <h2 className="text-4xl font-bold text-white">{laptopProduct.name}</h2>
+                              <h2 className="text-4xl font-bold text-white">{asusLaptops[activeLaptop].name}</h2>
                               <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">
-                                {laptopProduct.description}
+                                {asusLaptops[activeLaptop].description}
                               </p>
                             </div>
-                            <span className="text-3xl font-bold text-cyan-400 ml-8">{laptopProduct.price}</span>
+                            <span className="text-3xl font-bold text-cyan-400 ml-8">{asusLaptops[activeLaptop].price}</span>
                           </div>
                           
                           <div className="flex items-center justify-between pt-4 border-t border-white/10">
                             <div className="flex gap-6">
-                              {laptopProduct.specs.slice(0, 2).map((spec) => (
+                              {asusLaptops[activeLaptop].specs.slice(0, 2).map((spec) => (
                                 <div key={spec.title} className="flex items-center space-x-2 text-gray-300">
                                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={spec.icon} />
@@ -310,8 +311,8 @@ const LaptopProduct = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
-          {laptopProduct.specs.map((spec) => (
+        <div className="laptop-content grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          {asusLaptops[activeLaptop].specs.map((spec) => (
             <div
               key={spec.title}
               className="bg-black/40 backdrop-blur-md rounded-xl p-5 border border-white/10 
