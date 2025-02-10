@@ -7,6 +7,10 @@ export interface LenovoProduct {
   images: string[];
   video?: string;
   price: string;
+  performance: {
+    label: string;
+    value: string;
+  }[];
 }
 
 export const lenovoProducts: LenovoProduct[] = [
@@ -30,7 +34,11 @@ export const lenovoProducts: LenovoProduct[] = [
       "/image/lov4.jpeg"
     ],
     video: "/video/levono.mp4",
-    price: "$2,999"
+    price: "$2,999",
+    performance: [
+      { label: "Gaming", value: "Exceptional" },
+      { label: "Productivity", value: "Excellent" }
+    ]
   },
   {
     id: 2,
@@ -52,7 +60,11 @@ export const lenovoProducts: LenovoProduct[] = [
       "/image/legion-slim-4.png"
     ],
     video: "/video/legion-slim.mp4",
-    price: "$2,499"
+    price: "$2,499",
+    performance: [
+      { label: "Gaming", value: "Excellent" },
+      { label: "Portability", value: "Outstanding" }
+    ]
   },
   {
     id: 3,
@@ -73,6 +85,10 @@ export const lenovoProducts: LenovoProduct[] = [
       "/image/legion-tower-3.jpg",
       "/image/legion-tower-4.png"
     ],
-    price: "$3,499"
+    price: "$3,499",
+    performance: [
+      { label: "Gaming", value: "Outstanding" },
+      { label: "Workstation", value: "Exceptional" }
+    ]
   }
 ];

@@ -22,17 +22,18 @@ const HorizontalScrollPage = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Enhanced horizontal scrolling with smoother transitions
     gsap.to(containerRef.current, {
       x: () => -(containerRef.current?.scrollWidth || 0) + window.innerWidth,
-      ease: "power2.inOut",
+      ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top top",
-        end: () => containerRef.current?.scrollWidth || 0,
-        scrub: 1.5,
         pin: true,
+        start: "top top",
+        end: () => `+=${(containerRef.current?.scrollWidth || 0) - window.innerWidth}`,
+        scrub: 1,
         anticipatePin: 1,
+        snap: 1 / (sectionsRef.current.length - 1),
+        invalidateOnRefresh: true,
       },
     });
 
@@ -70,24 +71,28 @@ const HorizontalScrollPage = () => {
     }, "-=0.5");
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       tl.kill();
     };
   }, []);
 
   return (
     <div className="overflow-hidden bg-[#0A0A0C]">
-      <div ref={containerRef} className="flex w-[400vw] h-screen relative">
+      <div ref={containerRef} className="flex w-[400vw] h-screen">
         {/* Section 1: Legion Pro Series */}
-        <div ref={(el) => { sectionsRef.current[0] = el; }} className="w-screen h-screen relative px-6 py-2">
+        <div 
+          ref={(el) => { sectionsRef.current[0] = el; }} 
+          className="w-screen h-screen relative px-6 py-2 bg-gradient-to-br from-[#0A0A0C] via-[#050a1a] to-[#05101f]"
+        >
           {/* Modern Background */}
-          <div ref={backgroundRef} className="fixed inset-0 w-full h-full -z-10">
-            {/* Gradient orbs */}
-            <div className="absolute top-20 left-20 w-[40rem] h-[40rem] bg-purple-600/30 rounded-full blur-[128px] animate-float" />
-            <div className="absolute bottom-20 right-20 w-[35rem] h-[35rem] bg-cyan-500/20 rounded-full blur-[128px] animate-float-delayed" />
-            {/* Grid overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0C] via-transparent to-[#0A0A0C]" />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+          <div ref={backgroundRef} className="absolute inset-0 w-full h-full -z-10">
+            {/* Gradient orbs - matching style with Alienware */}
+            <div className="absolute top-20 left-20 w-[35rem] h-[35rem] bg-blue-900/20 rounded-full blur-[64px] animate-float" />
+            <div className="absolute bottom-20 right-20 w-[30rem] h-[30rem] bg-indigo-900/15 rounded-full blur-[64px] animate-float-delayed" />
+            
+            {/* Grid overlay with darker base */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#000012] via-[#050a1a] to-[#05101f]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
           </div>
 
           {/* Content Container */}
@@ -95,10 +100,15 @@ const HorizontalScrollPage = () => {
             <div className="relative w-full max-w-[1400px] mx-auto flex flex-col h-screen">
               {/* Header Section - Centered */}
               <div ref={titleRef} className="relative z-20 flex flex-col items-center text-center mb-4">
-                <h1 className="mt-10 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
+              <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-3">
+                  <span className="text-blue-400">Lenovo</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span className="text-white/60">Elite Gaming</span>
+                </div>
+                <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
                   {lenovoProducts[activeLaptop].name}
                 </h1>
-                <p className="mb-10 text-sm text-white/60 max-w-2xl">
+                <p className="mb-5 text-sm text-white/60 max-w-2xl">
                   Experience gaming evolution with cutting-edge technology
                 </p>
               </div>
@@ -146,15 +156,41 @@ const HorizontalScrollPage = () => {
                       {lenovoProducts[activeLaptop].specs.map((spec, idx) => (
                         <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/10 to-cyan-500/10 
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 
                             flex items-center justify-center border border-white/[0.05] group-hover:border-white/[0.1]">
-                            <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                           </div>
                           <span className="text-white/80 text-xs group-hover:text-white transition-colors">{spec}</span>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Performance Stats */}
+                    <div className="mt-6">
+                      <h3 className="text-base font-semibold text-white mb-4">Performance</h3>
+                      <div className="space-y-4">
+                        {[
+                          { label: "Gaming Performance", value: "95%" },
+                          { label: "CPU Speed", value: "90%" },
+                          { label: "GPU Power", value: "92%" },
+                          { label: "Cooling Efficiency", value: "88%" }
+                        ].map((stat, idx) => (
+                          <div key={idx} className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-white/60">{stat.label}</span>
+                              <span className="text-white">{stat.value}</span>
+                            </div>
+                            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-gradient-to-r from-blue-900 to-cyan-900 rounded-full"
+                                style={{ width: stat.value }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -163,18 +199,21 @@ const HorizontalScrollPage = () => {
           </div>
         </div>
 
-        {/* Section 2: Legion Slim */}
-        <div ref={(el) => { sectionsRef.current[1] = el; }} className="w-screen h-screen bg-gradient-to-br from-indigo-900 to-blue-900">
+        {/* Section 2: Alienware - Dark Red/Black theme */}
+        <div ref={(el) => { sectionsRef.current[1] = el; }} 
+          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#1a0000] via-[#330000] to-[#2d0a16]">
           <AlienwarePage />
         </div>
 
-        {/* Section 3: Legion Tower */}
-        <div ref={(el) => { sectionsRef.current[2] = el; }} className="w-screen h-screen bg-gradient-to-br from-blue-900 to-cyan-900">
+        {/* Section 3: Legion Tower - Dark Emerald theme */}
+        <div ref={(el) => { sectionsRef.current[2] = el; }} 
+          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#011c1c] via-[#042f2e] to-[#134e4a]">
           {/* Content for Section 3 */}
         </div>
 
-        {/* Section 4: Interactive Display */}
-        <div ref={(el) => { sectionsRef.current[3] = el; }} className="w-screen h-screen bg-gradient-to-br from-cyan-900 to-teal-900">
+        {/* Section 4: Interactive Display - Dark Purple/Night theme */}
+        <div ref={(el) => { sectionsRef.current[3] = el; }} 
+          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#0f0720] via-[#1e1b4b] to-[#312e81]">
           <LaptopProduct />
         </div>
       </div>
