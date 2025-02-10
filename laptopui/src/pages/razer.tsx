@@ -1,44 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import type { LenovoProduct } from '../data/lenovodata';
-import { lenovoProducts } from '../data/lenovodata';
-import AlienwarePage from './alienware';
-import RazerPage from './razer';
-import MSIPage from './msipage';
+import { RazerProduct, razerLaptops } from '../data/razerdata';
+
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const HorizontalScrollPage = () => {
+
+const RazerPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeLaptop, setActiveLaptop] = useState(0);
+  
+  // Reference the same structure as Alienware page
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
-  const mainCardRef = useRef<HTMLDivElement>(null);
-  const sideCardsRef = useRef<HTMLDivElement>(null);
-  const specsRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
+  // Animation effect similar to Alienware
   useEffect(() => {
     if (!containerRef.current) return;
 
-    gsap.to(containerRef.current, {
-      x: () => -(containerRef.current?.scrollWidth || 0) + window.innerWidth,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        pin: true,
-        start: "top top",
-        end: () => `+=${(containerRef.current?.scrollWidth || 0) - window.innerWidth}`,
-        scrub: 1,
-        anticipatePin: 1,
-        snap: 1 / (sectionsRef.current.length - 1),
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // Initial animations with stagger effect
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     tl.from(titleRef.current, {
@@ -46,71 +28,32 @@ const HorizontalScrollPage = () => {
       opacity: 0,
       duration: 1.2,
       filter: "blur(10px)",
-    })
-    .from(mainCardRef.current, {
-      x: -100,
-      opacity: 0,
-      duration: 1,
-      scale: 0.8,
-      filter: "blur(5px)",
-    }, "-=0.7")
-    .from(Array.from(sideCardsRef.current?.children || []), {
-      x: 100,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 0.8,
-      scale: 0.9,
-      filter: "blur(5px)",
-    }, "-=0.8")
-    .from(Array.from(specsRef.current?.children || []), {
-      y: 50,
-      opacity: 0,
-      stagger: 0.1,
-      duration: 0.5,
-      scale: 0.9,
-      filter: "blur(3px)",
-    }, "-=0.5");
+    });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       tl.kill();
     };
   }, []);
 
   return (
-    <div className="overflow-hidden bg-[#0A0A0C]">
-      <div ref={containerRef} className="flex w-[400vw] h-screen">
-        {/* Section 1: Legion Pro Series */}
-        <div 
-          ref={(el) => { sectionsRef.current[0] = el; }} 
-          className="w-screen h-screen relative px-6 py-2 bg-gradient-to-br from-[#0A0A0C] via-[#050a1a] to-[#05101f]"
-        >
-          {/* Modern Background */}
-          <div ref={backgroundRef} className="absolute inset-0 w-full h-full -z-10">
-            {/* Gradient orbs - matching style with Alienware */}
-            <div className="absolute top-20 left-20 w-[35rem] h-[35rem] bg-blue-900/20 rounded-full blur-[64px] animate-float" />
-            <div className="absolute bottom-20 right-20 w-[30rem] h-[30rem] bg-indigo-900/15 rounded-full blur-[64px] animate-float-delayed" />
-            
-            {/* Grid overlay with darker base */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#000012] via-[#050a1a] to-[#05101f]" />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
-          </div>
-
+    <div className="overflow-hidden">
+      <div ref={containerRef} className="w-screen h-screen">
+        <div className="relative">
           {/* Content Container */}
           <div className="absolute inset-0 w-full h-screen px-4 py-2">
             <div className="relative w-full max-w-[1400px] mx-auto flex flex-col h-screen">
-              {/* Header Section - Centered */}
+              {/* Header Section */}
               <div ref={titleRef} className="relative z-20 flex flex-col items-center text-center mb-4">
-              <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-3">
-                  <span className="text-blue-400">Lenovo</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#003300]/50 backdrop-blur-md border border-green-900/20 mb-3">
+                  <span className="text-green-400">Razer</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
                   <span className="text-white/60">Elite Gaming</span>
                 </div>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
-                  {lenovoProducts[activeLaptop].name}
+                  {razerLaptops[activeLaptop].name}
                 </h1>
                 <p className="mb-5 text-sm text-white/60 max-w-2xl">
-                  Experience gaming evolution with cutting-edge technology
+                  {razerLaptops[activeLaptop].description}
                 </p>
               </div>
 
@@ -121,20 +64,20 @@ const HorizontalScrollPage = () => {
                   {/* Main Card */}
                   <div className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-28.8rem)] rounded-2xl overflow-hidden">
                     <MainCard 
-                      product={lenovoProducts[activeLaptop]} 
+                      product={razerLaptops[activeLaptop]} 
                       activeIndex={activeIndex}
-                      category={lenovoProducts[activeLaptop].category}
-                      price={lenovoProducts[activeLaptop].price}
+                      category={razerLaptops[activeLaptop].category}
+                      price={razerLaptops[activeLaptop].price}
                     />
                   </div>
                   
                   {/* Thumbnails */}
-                  <div className="grid grid-cols-3 gap-3 h-16">
+                  <div className="grid grid-cols-3 gap-3 h-56">
                     {[1, 2, 3].map((index) => (
-                      <div key={index} className="relative h-full" onClick={() => setActiveIndex(index)}>
+                      <div key={index} className="relative h-56" onClick={() => setActiveIndex(index)}>
                         <SideCard
                           index={index}
-                          image={lenovoProducts[activeLaptop].images[index]}
+                          image={razerLaptops[activeLaptop].images[index]}
                           onClick={() => setActiveIndex(index)}
                         />
                       </div>
@@ -142,28 +85,31 @@ const HorizontalScrollPage = () => {
                   </div>
                 </div>
 
-                {/* Right Column - Specs & Details */}
+                {/* Right Column - Features & Performance */}
                 <div className="col-span-12 lg:col-span-4 flex flex-col gap-3">
-                  {/* Specs Panel */}
                   <div className="bg-white/[0.03] backdrop-blur-2xl rounded-2xl p-4 border border-white/[0.05]
                     shadow-xl shadow-black/20 h-[calc(100vh-12rem)] lg:h-[calc(100vh-14rem)] overflow-y-auto">
+                    {/* Features Section */}
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-base font-semibold text-white">Specifications</h3>
+                      <h3 className="text-base font-semibold text-white">Features</h3>
                       <span className="px-2 py-1 rounded-full bg-white/5 text-white/60 text-xs">
-                        Gaming Series
+                        {razerLaptops[activeLaptop].category}
                       </span>
                     </div>
-                    <div className="space-y-3 pr-2">
-                      {lenovoProducts[activeLaptop].specs.map((spec, idx) => (
-                        <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
+                    <div className="space-y-4 pr-2">
+                      {razerLaptops[activeLaptop].features.map((feature, idx) => (
+                        <div key={idx} className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 
-                            flex items-center justify-center border border-white/[0.05] group-hover:border-white/[0.1]">
-                            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/10 to-emerald-500/10 
+                              flex items-center justify-center border border-white/[0.05] group-hover:border-white/[0.1]">
+                              <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />
+                              </svg>
+                            </div>
+                            <h4 className="text-white font-medium">{feature.title}</h4>
                           </div>
-                          <span className="text-white/80 text-xs group-hover:text-white transition-colors">{spec}</span>
+                          <p className="text-white/60 text-sm pl-11">{feature.description}</p>
                         </div>
                       ))}
                     </div>
@@ -172,12 +118,7 @@ const HorizontalScrollPage = () => {
                     <div className="mt-6">
                       <h3 className="text-base font-semibold text-white mb-4">Performance</h3>
                       <div className="space-y-4">
-                        {[
-                          { label: "Gaming Performance", value: "95%" },
-                          { label: "CPU Speed", value: "90%" },
-                          { label: "GPU Power", value: "92%" },
-                          { label: "Cooling Efficiency", value: "88%" }
-                        ].map((stat, idx) => (
+                        {razerLaptops[activeLaptop].performance.map((stat, idx) => (
                           <div key={idx} className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span className="text-white/60">{stat.label}</span>
@@ -185,7 +126,7 @@ const HorizontalScrollPage = () => {
                             </div>
                             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                               <div 
-                                className="h-full bg-gradient-to-r from-blue-900 to-cyan-900 rounded-full"
+                                className="h-full bg-gradient-to-r from-green-900 to-emerald-900 rounded-full"
                                 style={{ width: stat.value }}
                               />
                             </div>
@@ -199,31 +140,14 @@ const HorizontalScrollPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Section 2: Alienware - Dark Red/Black theme */}
-        <div ref={(el) => { sectionsRef.current[1] = el; }} 
-          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#1a0000] via-[#330000] to-[#2d0a16]">
-          <AlienwarePage />
-        </div>
-
-        {/* Section 3: Legion Tower - Dark Emerald theme */}
-        <div ref={(el) => { sectionsRef.current[2] = el; }} 
-          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#011c1c] via-[#042f2e] to-[#134e4a]">
-          <RazerPage />
-        </div>
-
-        {/* Section 4: Interactive Display - Dark Purple/Night theme */}
-        <div ref={(el) => { sectionsRef.current[3] = el; }} 
-          className="w-screen h-screen flex-shrink-0 bg-gradient-to-br from-[#0f0720] via-[#1e1b4b] to-[#312e81]">
-          <MSIPage />
-        </div>
       </div>
     </div>
   );
 };
 
+// MainCard Component
 const MainCard = React.memo(({ product, activeIndex, category, price }: { 
-  product: LenovoProduct; 
+  product: RazerProduct; 
   activeIndex: number;
   category: string;
   price: string;
@@ -247,7 +171,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
 
   return (
     <div ref={mainCardRef} className="relative w-full h-full group">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 
+      <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-emerald-900/20 opacity-0 
         group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
       
       {/* Media Container */}
@@ -275,22 +199,22 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <div className="flex flex-col gap-4">
-            {/* Legion Series and Price Row */}
+            {/* Brand and Price Row */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-2
                   shadow-lg shadow-black/20 flex items-center justify-center">
-                  <svg className="w-full h-full text-purple-500" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="w-full h-full text-green-500" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L2 19h20L12 2zm0 3l7 14H5l7-14z"/>
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-sm text-white/60">Legion Series</span>
+                  <span className="text-sm text-white/60">Razer</span>
                   <span className="text-white font-medium">{category}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+                <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
                   {price}
                 </span>
                 <span className="text-white/40 text-sm">USD</span>
@@ -302,7 +226,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               <div className="flex items-center gap-2">
                 <span className="px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-xl text-white/90 text-sm
                   border border-white/10">
-                  Premium Gaming
+                  Elite Performance
                 </span>
               </div>
               <h3 className="text-2xl font-bold text-white">{product.name}</h3>
@@ -311,9 +235,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               </p>
               
               {/* Config Button */}
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl
-                hover:from-purple-500 hover:to-cyan-500 transition-all duration-300 group
-                font-medium text-white text-base shadow-xl shadow-purple-500/20">
+              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-green-900 to-emerald-900 hover:from-green-800 hover:to-emerald-800 
+                rounded-xl transition-all duration-300 group font-medium text-white text-base 
+                shadow-xl shadow-green-900/20">
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
@@ -330,12 +254,13 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
   );
 });
 
+// SideCard Component
 const SideCard = React.memo(({ index, image, onClick }: { index: number; image: string; onClick: () => void }) => (
   <div 
     className="relative h-full rounded-xl overflow-hidden cursor-pointer group"
     onClick={onClick}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 
+    <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-emerald-900/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
     <img
       src={image}
@@ -351,22 +276,4 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
   </div>
 ));
 
-const SpecBadge = React.memo(({ spec }: { spec: string }) => (
-  <div className="group hover-card-effect bg-black/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 
-    hover:border-purple-500/50 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="relative z-10 flex flex-col items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform
-        border border-purple-500/30">
-        <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      </div>
-      <span className="text-white text-sm font-medium group-hover:text-purple-300 transition-colors text-center">
-        {spec}
-      </span>
-    </div>
-  </div>
-));
-
-export default HorizontalScrollPage;
+export default RazerPage;

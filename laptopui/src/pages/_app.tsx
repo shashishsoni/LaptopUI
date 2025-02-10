@@ -7,6 +7,8 @@ import LenovoProduct from "../pages/lenovoproduct";
 import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import AcerPredatorPage from "../pages/AcerPredatorPage";
+import Footer from "../components/footer";
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -20,6 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <OpenAnimation />
       <LaptopProduct />
       <LenovoProduct />
+      <AcerPredatorPage />
+      <Footer />
     </>
   );
 }
