@@ -1,29 +1,20 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import Navbar from "../components/navbar";
-import OpenAnimation from "../components/openanimation";
-import LaptopProduct from "../pages/laptopProduct";
-import LenovoProduct from "../pages/lenovoproduct";
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import AcerPredatorPage from "../pages/AcerPredatorPage";
-import Footer from "../components/footer";
+import BrowserRouter from '../components/BrowserRouter';
+import Navbar from '../components/navbar';
+import MainLayout from '../components/MainLayout';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-  }, []);
+  const router = useRouter();
+  const showProducts = router.pathname === '/';
 
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <Component {...pageProps} />
-      <OpenAnimation />
-      <LaptopProduct />
-      <LenovoProduct />
-      <AcerPredatorPage />
-      <Footer />
-    </>
+      <MainLayout showProducts={showProducts}>
+        <Component {...pageProps} />
+      </MainLayout>
+    </BrowserRouter>
   );
 }
