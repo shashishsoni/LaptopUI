@@ -21,21 +21,7 @@ const AlienwarePage = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Enhanced horizontal scrolling with smoother transitions
-    gsap.to(containerRef.current, {
-      x: () => -(containerRef.current?.scrollWidth || 0) + window.innerWidth,
-      ease: "power2.inOut",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: () => containerRef.current?.scrollWidth || 0,
-        scrub: 1.5,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
-
-    // Initial animations with stagger effect
+    // Initial animations with stagger effect only
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     tl.from(titleRef.current, {
@@ -69,24 +55,27 @@ const AlienwarePage = () => {
     }, "-=0.5");
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       tl.kill();
     };
   }, []);
 
   return (
     <div className="overflow-hidden bg-[#0A0A0C]">
-      <div ref={containerRef} className="flex w-[400vw] h-screen relative">
+      <div ref={containerRef} className="h-screen relative">
         {/* Section 1: Alienware X-Series */}
-        <div ref={(el) => { sectionsRef.current[0] = el; }} className="w-screen h-screen relative px-6 py-2">
+        <div 
+          ref={(el) => { sectionsRef.current[0] = el; }} 
+          className="w-screen h-screen relative px-6 py-2 bg-gradient-to-br from-[#0A0A0C] via-[#1a0505] to-[#200505]"
+        >
           {/* Modern Background */}
-          <div ref={backgroundRef} className="fixed inset-0 w-full h-full -z-10">
-            {/* Gradient orbs */}
-            <div className="absolute top-20 left-20 w-[40rem] h-[40rem] bg-blue-600/30 rounded-full blur-[128px] animate-float" />
-            <div className="absolute bottom-20 right-20 w-[35rem] h-[35rem] bg-cyan-500/20 rounded-full blur-[128px] animate-float-delayed" />
-            {/* Grid overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0C] via-transparent to-[#0A0A0C]" />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+          <div ref={backgroundRef} className="absolute inset-0 w-full h-full -z-10">
+            {/* Gradient orbs - reduced blur and size */}
+            <div className="absolute top-20 left-20 w-[35rem] h-[35rem] bg-red-900/20 rounded-full blur-[64px] animate-float" />
+            <div className="absolute bottom-20 right-20 w-[30rem] h-[30rem] bg-purple-900/15 rounded-full blur-[64px] animate-float-delayed" />
+            
+            {/* Grid overlay with darker base */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#120000] via-[#1a0505] to-[#200505]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
           </div>
 
           {/* Content Container */}
@@ -94,15 +83,15 @@ const AlienwarePage = () => {
             <div className="relative w-full max-w-[1400px] mx-auto flex flex-col h-screen">
               {/* Header Section - Centered */}
               <div ref={titleRef} className="relative z-20 flex flex-col items-center text-center mb-4">
-                <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-3">
-                  <span className="text-blue-400">Alienware</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#2d0a16]/50 backdrop-blur-md border border-red-900/20 mb-3">
+                  <span className="text-red-400">Alienware</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
                   <span className="text-white/60">Elite Gaming</span>
                 </div>
-                <h1 className="mt-10 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
+                <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
                   {alienwareLaptops[activeLaptop].name}
                 </h1>
-                <p className="mb-10 text-sm text-white/60 max-w-2xl">
+                <p className="mb-5 text-sm text-white/60 max-w-2xl">
                   {alienwareLaptops[activeLaptop].description}
                 </p>
               </div>
@@ -151,9 +140,9 @@ const AlienwarePage = () => {
                         <div key={idx} className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
                           <div className="flex items-center gap-3 mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500/10 to-purple-500/10 
                               flex items-center justify-center border border-white/[0.05] group-hover:border-white/[0.1]">
-                              <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />
                               </svg>
                             </div>
@@ -176,7 +165,7 @@ const AlienwarePage = () => {
                             </div>
                             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                               <div 
-                                className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                                className="h-full bg-gradient-to-r from-red-900 to-purple-900 rounded-full"
                                 style={{ width: stat.value }}
                               />
                             </div>
@@ -190,13 +179,6 @@ const AlienwarePage = () => {
             </div>
           </div>
         </div>
-
-        {/* Section 2: Alienware M-Series */}
-        <div ref={(el) => { sectionsRef.current[1] = el; }} className="w-screen h-screen">
-          <AlienwareM />
-        </div>
-
-        {/* Additional sections can be added here */}
       </div>
     </div>
   );
@@ -228,7 +210,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
 
   return (
     <div ref={mainCardRef} className="relative w-full h-full group">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 opacity-0 
+      <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-purple-900/20 opacity-0 
         group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
       
       {/* Media Container */}
@@ -261,7 +243,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-2
                   shadow-lg shadow-black/20 flex items-center justify-center">
-                  <svg className="w-full h-full text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="w-full h-full text-red-500" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L2 19h20L12 2zm0 3l7 14H5l7-14z"/>
                   </svg>
                 </div>
@@ -271,7 +253,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-purple-400">
                   {price}
                 </span>
                 <span className="text-white/40 text-sm">USD</span>
@@ -292,9 +274,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               </p>
               
               {/* Config Button */}
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl
-                hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 group
-                font-medium text-white text-base shadow-xl shadow-blue-500/20">
+              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-red-900 to-purple-900 hover:from-red-800 hover:to-purple-800 
+                rounded-xl transition-all duration-300 group font-medium text-white text-base 
+                shadow-xl shadow-red-900/20">
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
@@ -317,7 +299,7 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
     className="relative h-full rounded-xl overflow-hidden cursor-pointer group"
     onClick={onClick}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 opacity-0 
+    <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-purple-900/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
     <img
       src={image}

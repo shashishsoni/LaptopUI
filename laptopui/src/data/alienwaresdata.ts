@@ -33,12 +33,12 @@ export const alienwareLaptops: AlienwareProduct[] = [
       "Advanced Cooling"
     ],
     images: [
-      "/image/alienware-1.webp",
-      "/image/alienware-2.jpg",
-      "/image/alienware-3.jpg",
-      "/image/alienware-4.png"
+      "/image/aln1.jpg",
+      "/image/aln2.jpg",
+      "/image/aln3.jpg",
+      "/image/aln4.webp"
     ],
-    video: "/video/alienware.mp4",
+    video: "/video/alnvideo.mp4",
     price: "$3,499",
     features: [
       {
