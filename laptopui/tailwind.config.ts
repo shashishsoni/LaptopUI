@@ -2,34 +2,34 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    './src/pages/**/*.{js,ts,jsx,tsx}',
-    './src/components/**/*.{js,ts,jsx,tsx}',
-    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
-      colors: {
-        primary: '#4F46E5',
-        secondary: '#EC4899',
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 3s infinite',
+        'glow': 'glow 2s ease-in-out infinite alternate',
       },
-      perspective: {
-        '1000': '1000px',
-        '1500': '1500px',
-        '2000': '2000px',
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        glow: {
+          '0%': { opacity: '0.5', boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
+          '100%': { opacity: '1', boxShadow: '0 0 30px rgba(59, 130, 246, 0.8)' },
+        },
       },
     },
   },
-  plugins: [
-    function({ addUtilities }: { addUtilities: any }) {
-      addUtilities({
-        '.transform-style-3d': { transformStyle: 'preserve-3d' },
-      });
-    },
-  ],
+  plugins: [],
 };
 
 export default config; 
