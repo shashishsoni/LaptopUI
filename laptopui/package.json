@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.1",
     "framer-motion": "^12.4.2",
     "gsap": "^3.12.7",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0",
     "three": "^0.173.0",
     "three.regular.helvetiker": "^1.0.0"
   },

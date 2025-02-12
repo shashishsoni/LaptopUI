@@ -2,29 +2,55 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/slices/userSlice';
+import type { RootState } from '../redux/store';
 import { routes } from '../routes/routes';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Navbar = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
-  const prevScrollY = useRef(0);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [shouldShow, setShouldShow] = useState(true);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      // Check if we're past the first viewport height
-      if (currentScrollY > window.innerHeight) {
-        setIsHidden(true);
+      
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setShouldShow(true);
       } else {
-        setIsHidden(false);
+        setShouldShow(false);
       }
-      prevScrollY.current = currentScrollY;
+      
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
 
   const isActive = (path: string) => router.pathname === path;
 
@@ -34,84 +60,170 @@ const Navbar = () => {
   };
 
   return (
-    <nav 
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isHidden 
-          ? '-translate-y-full hover:translate-y-0' 
-          : 'bg-gradient-to-r from-black/80 to-gray-900/80 backdrop-blur-md border-b border-white/20'
-      }`}
-      onMouseEnter={() => isHidden && setIsHidden(false)}
-      onMouseLeave={() => window.scrollY > window.innerHeight && setIsHidden(true)}
+    <motion.nav 
+      initial={{ y: 0 }}
+      animate={{ y: shouldShow ? 0 : -100 }}
+      transition={{ duration: 0.3 }}
+      className={`fixed w-full z-50 transition-all duration-300
+        ${shouldShow 
+          ? 'bg-gradient-to-r from-black/80 to-gray-900/80 backdrop-blur-md border-b border-white/20' 
+          : 'bg-transparent'}`}
     >
-      <div className={`w-full ${isHidden ? 'bg-black/80 backdrop-blur-md shadow-lg' : ''}`}>
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <Link href={routes.home} className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 hover:scale-105 transition-transform duration-300">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link href={routes.home} className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
               LaptopUI
             </Link>
+          </motion.div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
-              <ul className="flex space-x-8 items-center">
-                <li>
-                  <Link 
-                    href={routes.home}
-                    className={`text-white/70 hover:text-white transition-colors ${
-                      isActive(routes.home) ? 'text-white' : ''
-                    }`}
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href={routes.products.main}
-                    className={`text-white/70 hover:text-white transition-colors ${
-                      router.pathname.includes('/products') ? 'text-white' : ''
-                    }`}
-                  >
-                    Products
-                  </Link>
-                </li>
-              </ul>
+          <div className="hidden md:flex items-center space-x-8">
+            <ul className="flex space-x-8 items-center">
+              <motion.li whileHover={{ y: -2 }}>
+                <Link 
+                  href={routes.home}
+                  className="text-white/70 hover:text-white transition-colors relative group"
+                >
+                  Home
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 
+                    transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </Link>
+              </motion.li>
+              <motion.li whileHover={{ y: -2 }}>
+                <Link 
+                  href={routes.products.main}
+                  className="text-white/70 hover:text-white transition-colors relative group"
+                >
+                  Products
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 
+                    transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </Link>
+              </motion.li>
+            </ul>
 
-              {/* Auth Buttons */}
-              <div className="flex items-center space-x-4">
-                <Link 
-                  href={routes.login}
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 
-                    text-white font-medium hover:from-cyan-600 hover:to-blue-600 
-                    transition-all hover:scale-105 focus:ring-2 focus:ring-cyan-500/20"
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 
+                    transition-colors border border-white/10 hover:border-white/20"
                 >
-                  Login
-                </Link>
-                <Link 
-                  href={routes.signup}
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 
-                    hover:from-blue-600 hover:to-purple-700 text-white transition-all duration-300"
-                >
-                  Sign up
-                </Link>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 
+                      flex items-center justify-center shadow-lg">
+                      <span className="text-white font-medium">
+                        {user.fullName.charAt(0)}
+                      </span>
+                    </div>
+                    <span className="text-white">{user.fullName}</span>
+                  </div>
+                  <motion.svg 
+                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                    className="w-5 h-5 text-white"
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </motion.svg>
+                </motion.button>
+
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-900/95 backdrop-blur-sm 
+                      border border-white/10 shadow-xl"
+                  >
+                    <div className="py-1">
+                      <div className="px-4 py-2 border-b border-white/10">
+                        <p className="text-sm text-white/60">{user.email}</p>
+                      </div>
+                      <Link 
+                        href="/profile"
+                        className="flex items-center px-4 py-2 text-sm text-white/70 hover:bg-white/5"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Profile
+                      </Link>
+                      <Link 
+                        href="/cart"
+                        className="flex items-center px-4 py-2 text-sm text-white/70 hover:bg-white/5"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Cart
+                      </Link>
+                      <Link 
+                        href="/orders"
+                        className="flex items-center px-4 py-2 text-sm text-white/70 hover:bg-white/5"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Orders
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-white/5"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Logout
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
               </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    href={routes.login}
+                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 
+                      text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition-all"
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    href={routes.signup}
+                    className="px-4 py-2 rounded-lg bg-white/5 text-white hover:bg-white/10 
+                      transition-all border border-white/10 hover:border-white/20"
+                  >
+                    Sign up
+                  </Link>
+                </motion.div>
+              </div>
+            )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -162,7 +274,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 

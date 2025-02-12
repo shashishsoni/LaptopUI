@@ -1,8 +1,53 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { authApi } from '../server/services/api';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/userSlice';
 
 const LoginPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await authApi.login(formData);
+      
+      // Store in localStorage first
+      localStorage.setItem('user', JSON.stringify(response.user));
+      localStorage.setItem('token', response.token);
+
+      // Then update Redux state
+      dispatch(setUser({
+        user: response.user,
+        token: response.token
+      }));
+
+      router.push('/');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
@@ -24,23 +69,34 @@ const LoginPage = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
+              Welcome Back
             </h1>
             <p className="text-white/60 mt-2">
-              {isLogin ? 'Enter your credentials to continue' : 'Sign up for a new account'}
+              Enter your credentials to continue
             </p>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+              {error}
+            </div>
+          )}
+
           {/* Form */}
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="text-white/80 text-sm font-medium">Email</label>
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all
                   placeholder:text-white/30"
                 placeholder="Enter your email"
+                required
               />
             </div>
 
@@ -48,57 +104,48 @@ const LoginPage = () => {
               <label className="text-white/80 text-sm font-medium">Password</label>
               <input
                 type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all
                   placeholder:text-white/30"
                 placeholder="Enter your password"
+                required
               />
             </div>
 
-            {!isLogin && (
-              <div className="space-y-2">
-                <label className="text-white/80 text-sm font-medium">Confirm Password</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white 
-                    focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all
-                    placeholder:text-white/30"
-                  placeholder="Confirm your password"
-                />
-              </div>
-            )}
-
-            {isLogin && (
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center text-white/60">
-                  <input type="checkbox" className="mr-2 rounded border-white/20 bg-white/5" />
-                  Remember me
-                </label>
-                <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                  Forgot password?
-                </a>
-              </div>
-            )}
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center text-white/60">
+                <input type="checkbox" className="mr-2 rounded border-white/20 bg-white/5" />
+                Remember me
+              </label>
+              <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                Forgot password?
+              </a>
+            </div>
 
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white 
-                rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all
-                focus:ring-2 focus:ring-cyan-500/20 hover:scale-[1.02]"
+              disabled={loading}
+              className={`w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white 
+                rounded-lg font-medium transition-all focus:ring-2 focus:ring-cyan-500/20 
+                hover:scale-[1.02] ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:from-cyan-600 hover:to-blue-600'}`}
             >
-              {isLogin ? 'Sign In' : 'Create Account'}
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
-          {/* Toggle Login/Register */}
+          {/* Sign Up Link */}
           <div className="mt-6 text-center text-white/60">
-            <span>{isLogin ? "Don't have an account? " : 'Already have an account? '}</span>
-            <button
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
+            <span>Don't have an account? </span>
+            <Link
+              href="/signup"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium
+                hover:underline decoration-2 underline-offset-4"
             >
-              {isLogin ? 'Sign Up' : 'Sign In'}
-            </button>
+              Sign Up
+            </Link>
           </div>
 
           {/* Social Login */}

@@ -12,6 +12,7 @@ model User {
   email     String   @unique
   password  String
   fullName  String
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -31,4 +32,9 @@ model Laptop {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }
