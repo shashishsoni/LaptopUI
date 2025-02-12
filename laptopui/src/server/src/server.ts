@@ -11,38 +11,46 @@ dotenv.config();
 
 const app = express();
 
-// CORS Configuration
-app.use(cors(corsOptions));
+// Enhanced CORS configuration
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json());
+
+// Health check route
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
 // app.use('/api/laptops', laptopRoutes);
 
 // Connect to Database
-connectDB()
-  .then(() => {
+const startServer = async () => {
+  try {
+    await connectDB();
     console.log('✅ Database connected successfully');
-  })
-  .catch((error) => {
-    console.error('❌ Database connection failed:', error);
+    
+    const port = process.env.PORT || 5000;
+    app.listen(port, () => {
+      console.log(`🚀 Server running on http://localhost:${port}`);
+      console.log('👉 API endpoint:', `http://localhost:${port}/api`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
     process.exit(1);
-  });
+  }
+};
 
-// Basic test route
-app.get('/', (req, res) => {
-  res.json({ message: 'Server is running' });
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+startServer();
 
 // Handle server shutdown
-process.on('SIGTERM', async () => {
-  console.log('Shutting down server...');
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM received. Shutting down gracefully');
   process.exit(0);
 });
