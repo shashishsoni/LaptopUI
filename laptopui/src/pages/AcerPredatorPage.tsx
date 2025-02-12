@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import type { AcerProduct } from '../data/AcerData';
 import { acerProducts } from '../data/AcerData';
+import { useRouter } from 'next/router';
 
 const DetailedSpecsSection = React.memo(({ specs }: { specs: AcerProduct['detailedSpecs'] }) => (
   <div className="mt-8 relative">
@@ -66,6 +67,7 @@ const AcerPredatorPage = () => {
   const [activeLaptop, setActiveLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -83,16 +85,8 @@ const AcerPredatorPage = () => {
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0a] text-white">
-      {/* Background Elements */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/10 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent blur-xl" />
-        <div className="absolute inset-0 bg-[url('/hexagon.svg')] bg-repeat opacity-5" />
-      </div>
-
       {/* Scrollable Content */}
-      <div className="relative z-10 min-h-screen">
+      <div className="relative z-20 min-h-screen">
         {/* Hero Section */}
         <div ref={heroRef} className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center text-center mb-8">
@@ -165,6 +159,7 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
   product: AcerProduct;
   activeIndex: number;
 }) => {
+  const router = useRouter();
   const displayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -184,11 +179,11 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
 
   return (
     <div ref={displayRef} className="relative w-full h-full group">
-      {/* Futuristic Overlay Effects */}
+      {/* Content */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 opacity-0 
         group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="absolute inset-0 bg-[url('/circuit.svg')] bg-cover opacity-30 mix-blend-overlay" />
       
+      {/* Media Content */}
       {activeIndex === 0 && product.video ? (
         <video
           className="w-full h-full object-cover"
@@ -206,7 +201,7 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
         />
       )}
 
-      {/* Specs Overlay */}
+      {/* Overlay with Button */}
       <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
         <div className="flex justify-between items-end">
           <div>
@@ -220,8 +215,15 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
               </span>
             </div>
           </div>
-          <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 
-            hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 group">
+          <button 
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 
+              hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 group
+              relative z-50 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/configure/${product.id}`);
+            }}
+          >
             <span className="flex items-center gap-2">
               Configure Now
               <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
