@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { authApi } from '../server/services/api';
+import { useRouter } from 'next/router';
 
 const SignupPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your signup logic here
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    try {
+      await authApi.signup({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName
+      });
+      router.push('/login');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Signup failed');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const socialProviders = [
@@ -73,6 +97,9 @@ const SignupPage = () => {
 
           {/* Form with reduced spacing */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="text-red-400 text-sm text-center">{error}</div>
+            )}
             {/* Input fields with reduced padding */}
             <div className="space-y-1">
               <label className="text-white/80 text-sm font-medium flex items-center gap-2">
@@ -80,8 +107,9 @@ const SignupPage = () => {
               </label>
               <input
                 type="text"
+                name="fullName"
                 value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                onChange={handleChange}
                 className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all
                   placeholder:text-white/30 hover:bg-white/10"
@@ -96,8 +124,9 @@ const SignupPage = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={handleChange}
                 className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all
                   placeholder:text-white/30 hover:bg-white/10"
@@ -112,8 +141,9 @@ const SignupPage = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={handleChange}
                 className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all
                   placeholder:text-white/30 hover:bg-white/10"
@@ -128,8 +158,9 @@ const SignupPage = () => {
               </label>
               <input
                 type="password"
+                name="confirmPassword"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                onChange={handleChange}
                 className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white 
                   focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all
                   placeholder:text-white/30 hover:bg-white/10"

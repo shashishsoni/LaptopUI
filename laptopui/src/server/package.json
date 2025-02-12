@@ -16,9 +16,11 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.3.1",
+    "@types/axios": "^0.9.36",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
     "argon2": "^0.41.1",
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

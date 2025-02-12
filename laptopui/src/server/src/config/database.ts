@@ -1,14 +1,29 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
 
-const prisma = new PrismaClient();
+dotenv.config();
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL is not defined in environment variables');
+}
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL
+    },
+  },
+  log: ['query', 'error', 'warn'],
+});
 
 export const connectDB = async () => {
   try {
     await prisma.$connect();
-    console.log('Database connected successfully');
+    console.log('Database connection URL:', process.env.DATABASE_URL);
+    return prisma;
   } catch (error) {
-    console.error('Database connection failed:', error);
-    process.exit(1);
+    console.error('Database connection error:', error);
+    throw error;
   }
 };
 
