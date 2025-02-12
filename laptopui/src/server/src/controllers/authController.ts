@@ -40,27 +40,36 @@ interface LoginData {
 }
 
 export const login = async (data: LoginData) => {
-  const user = await prisma.user.findUnique({
-    where: { email: data.email }
-  });
-  
-  if (!user) throw new Error('User not found');
-  
-  const isValidPassword = await verifyPassword(data.password, user.password);
-  if (!isValidPassword) throw new Error('Invalid password');
-  
-  const token = jwt.sign(
-    { userId: user.id },
-    process.env.JWT_SECRET || 'fallback-secret',
-    { expiresIn: '24h' }
-  );
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: data.email }
+    });
+    
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const isValidPassword = await verifyPassword(data.password, user.password);
+    if (!isValidPassword) {
+      throw new Error('Invalid password');
+    }
+    
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET || 'fallback-secret',
+      { expiresIn: '24h' }
+    );
 
-  return {
-    user: {
-      id: user.id,
-      email: user.email,
-      fullName: user.fullName
-    },
-    token
-  };
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName
+      },
+      token
+    };
+  } catch (error: any) {
+    console.error('Login error:', error);
+    throw new Error(error.message || 'Login failed');
+  }
 }; 

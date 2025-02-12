@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { authApi } from '../server/services/api';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/userSlice';
+import { authApi } from '../server/services/api';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -22,21 +24,30 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      // Add basic validation
+      if (!formData.email || !formData.password) {
+        throw new Error('Please fill in all fields');
+      }
+
       const response = await authApi.login(formData);
       
-      // Store in localStorage first
-      localStorage.setItem('user', JSON.stringify(response.user));
-      localStorage.setItem('token', response.token);
+      if (response && response.token) {
+        // Store both token and user data
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userData', JSON.stringify(response.user));
+        
+        dispatch(setUser({
+          user: response.user,
+          token: response.token
+        }));
 
-      // Then update Redux state
-      dispatch(setUser({
-        user: response.user,
-        token: response.token
-      }));
-
-      router.push('/');
+        router.push('/');
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
+      console.error('Login error:', err);
+      setError(err.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }

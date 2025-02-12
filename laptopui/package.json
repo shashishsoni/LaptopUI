@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "server": "cd src/server && ts-node src/server.ts",
+    "dev:server": "cd src/server && nodemon src/server.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -33,6 +36,9 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "webpack": "^5.97.1"
+    "webpack": "^5.97.1",
+    "concurrently": "^8.0.0",
+    "nodemon": "^3.0.0",
+    "ts-node": "^10.9.0"
   }
 }
