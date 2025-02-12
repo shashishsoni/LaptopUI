@@ -218,7 +218,102 @@ const LaptopProduct = () => {
         </div>
 
         <div className="laptop-content grid grid-cols-1 md:grid-cols-6 gap-6 mb-16 mx-auto">
-          {[0, 1, 2, 3, 4].map((index) => renderCard(index))}
+          {[0, 1, 2, 3, 4].map((index) => (
+            <div
+              key={index}
+              className={`${
+                index === 0 
+                  ? 'md:col-span-6 md:row-span-2 h-[700px] relative'
+                  : index <= 2 
+                    ? 'md:col-span-3 h-[340px]'
+                    : 'md:col-span-3 h-[340px]'
+              } relative`}
+            >
+              <div
+                onClick={() => handleCardClick(index)}
+                className="display-card relative h-full w-full transition-all duration-500 ease-out"
+              >
+                <div
+                  className={`relative h-full rounded-2xl overflow-hidden group cursor-pointer 
+                  ${index === 0 
+                    ? 'shadow-2xl shadow-purple-500/30 ring-1 ring-purple-500/20' 
+                    : 'shadow-lg hover:shadow-xl hover:shadow-purple-500/20'}
+                  transform transition-all duration-500 hover:scale-[1.02]`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/10 to-transparent 
+                    pointer-events-none z-0" />
+                  <div className="relative z-10 h-full">
+                    {index === 0 ? (
+                      // Main card content
+                      <div className="relative w-full h-full">
+                        {activeIndex === 0 ? (
+                          <video
+                            className="absolute inset-0 w-full h-full object-cover"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            src={asusLaptops[activeLaptop].video}
+                          />
+                        ) : (
+                          <img
+                            src={asusLaptops[activeLaptop].images[activeIndex - 1]}
+                            alt={`${asusLaptops[activeLaptop].name} view ${activeIndex}`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent 
+                          via-black/20 to-black/80 pointer-events-none" />
+                        
+                        <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
+                          <div className="space-y-6">
+                            <div className="flex justify-between items-start">
+                              <div className="space-y-2">
+                                <h2 className="text-4xl font-bold text-white">{asusLaptops[activeLaptop].name}</h2>
+                                <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">
+                                  {asusLaptops[activeLaptop].description}
+                                </p>
+                              </div>
+                              <span className="text-3xl font-bold text-cyan-400 ml-8">{asusLaptops[activeLaptop].price}</span>
+                            </div>
+                            
+                            <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                              <div className="flex gap-6">
+                                {asusLaptops[activeLaptop].specs.slice(0, 2).map((spec) => (
+                                  <div key={spec.title} className="flex items-center space-x-2 text-gray-300">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={spec.icon} />
+                                    </svg>
+                                    <span className="text-sm">{spec.value}</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl 
+                                hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 
+                                font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105
+                                transform active:scale-95">
+                                Configure Now
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      // Small card content
+                      <>
+                        {getSmallCardContent(index)}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
+                          transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                          <span className="text-white font-medium transform -translate-y-1 group-hover:translate-y-0 
+                            transition-transform duration-300">View</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="laptop-content grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
