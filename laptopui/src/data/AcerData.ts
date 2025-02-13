@@ -24,11 +24,63 @@ export interface AcerProduct {
       description: string;
     }[];
   }[];
+  configurations: {
+    processor: {
+      name: string;
+      required: boolean;
+      options: {
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }[];
+    };
+    graphics: {
+      name: string;
+      required: boolean;
+      options: {
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }[];
+    };
+    memory: {
+      name: string;
+      required: boolean;
+      options: {
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }[];
+    };
+    storage: {
+      name: string;
+      required: boolean;
+      options: {
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }[];
+    };
+    display: {
+      name: string;
+      required: boolean;
+      options: {
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }[];
+    };
+  };
 }
 
 export const acerProducts: AcerProduct[] = [
   {
-    id: 1,
+    id: 9,
     name: "Predator Helios 16",
     category: "Elite Gaming",
     description: "Dominate the gaming arena with the Predator Helios 16, featuring AI-powered cooling and next-gen performance in a sleek design.",
@@ -185,6 +237,98 @@ export const acerProducts: AcerProduct[] = [
           }
         ]
       }
-    ]
+    ],
+    configurations: {
+      processor: {
+        name: "Processor",
+        required: true,
+        options: [
+          {
+            id: "base",
+            name: "Intel Core Ultra 7",
+            price: 0,
+            description: "16 Cores, Up to 5.0GHz"
+          },
+          {
+            id: "ultra9",
+            name: "Intel Core Ultra 9",
+            price: 400,
+            description: "24 Cores, Up to 5.6GHz"
+          }
+        ]
+      },
+      graphics: {
+        name: "Graphics",
+        required: true,
+        options: [
+          {
+            id: "base",
+            name: "RTX 4080",
+            price: 0,
+            description: "16GB GDDR6X"
+          },
+          {
+            id: "rtx4090",
+            name: "RTX 4090",
+            price: 600,
+            description: "24GB GDDR6X"
+          }
+        ]
+      },
+      memory: {
+        name: "Memory",
+        required: true,
+        options: [
+          {
+            id: "base",
+            name: "32GB DDR5",
+            price: 0,
+            description: "5600MHz"
+          },
+          {
+            id: "64gb",
+            name: "64GB DDR5",
+            price: 400,
+            description: "6400MHz"
+          }
+        ]
+      },
+      storage: {
+        name: "Storage",
+        required: true,
+        options: [
+          {
+            id: "base",
+            name: "2TB NVMe",
+            price: 0,
+            description: "PCIe Gen4"
+          },
+          {
+            id: "4tb",
+            name: "4TB NVMe",
+            price: 500,
+            description: "RAID 0"
+          }
+        ]
+      },
+      display: {
+        name: "Display",
+        required: true,
+        options: [
+          {
+            id: "base",
+            name: "16\" QHD 240Hz",
+            price: 0,
+            description: "2560x1440"
+          },
+          {
+            id: "4k",
+            name: "16\" 4K 165Hz",
+            price: 300,
+            description: "3840x2160"
+          }
+        ]
+      }
+    }
   }
 ];

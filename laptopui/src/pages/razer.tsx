@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { RazerProduct, razerLaptops } from '../data/razerdata';
+import { RazerProduct, razerProducts } from '../data/razerdata';
+import Link from 'next/link';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -50,10 +51,10 @@ const RazerPage = () => {
                   <span className="text-white/60">Elite Gaming</span>
                 </div>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
-                  {razerLaptops[activeLaptop].name}
+                  {razerProducts[activeLaptop].name}
                 </h1>
                 <p className="mb-5 text-sm text-white/60 max-w-2xl">
-                  {razerLaptops[activeLaptop].description}
+                  {razerProducts[activeLaptop].description}
                 </p>
               </div>
 
@@ -64,10 +65,10 @@ const RazerPage = () => {
                   {/* Main Card */}
                   <div className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-28.8rem)] rounded-2xl overflow-hidden">
                     <MainCard 
-                      product={razerLaptops[activeLaptop]} 
+                      product={razerProducts[activeLaptop]} 
                       activeIndex={activeIndex}
-                      category={razerLaptops[activeLaptop].category}
-                      price={razerLaptops[activeLaptop].price}
+                      category={razerProducts[activeLaptop].category}
+                      price={razerProducts[activeLaptop].price}
                     />
                   </div>
                   
@@ -77,7 +78,7 @@ const RazerPage = () => {
                       <div key={index} className="relative h-56" onClick={() => setActiveIndex(index)}>
                         <SideCard
                           index={index}
-                          image={razerLaptops[activeLaptop].images[index]}
+                          image={razerProducts[activeLaptop].images[index]}
                           onClick={() => setActiveIndex(index)}
                         />
                       </div>
@@ -93,11 +94,11 @@ const RazerPage = () => {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-base font-semibold text-white">Features</h3>
                       <span className="px-2 py-1 rounded-full bg-white/5 text-white/60 text-xs">
-                        {razerLaptops[activeLaptop].category}
+                        {razerProducts[activeLaptop].category}
                       </span>
                     </div>
                     <div className="space-y-4 pr-2">
-                      {razerLaptops[activeLaptop].features.map((feature, idx) => (
+                      {razerProducts[activeLaptop].features.map((feature, idx) => (
                         <div key={idx} className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
                           <div className="flex items-center gap-3 mb-2">
@@ -118,7 +119,7 @@ const RazerPage = () => {
                     <div className="mt-6">
                       <h3 className="text-base font-semibold text-white mb-4">Performance</h3>
                       <div className="space-y-4">
-                        {razerLaptops[activeLaptop].performance.map((stat, idx) => (
+                        {razerProducts[activeLaptop].performance.map((stat, idx) => (
                           <div key={idx} className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span className="text-white/60">{stat.label}</span>
@@ -235,9 +236,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               </p>
               
               {/* Config Button */}
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-green-900 to-emerald-900 hover:from-green-800 hover:to-emerald-800 
-                rounded-xl transition-all duration-300 group font-medium text-white text-base 
-                shadow-xl shadow-green-900/20">
+              <Link
+                href={`/configure/${product.id}`}
+                className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-green-900 to-emerald-900 hover:from-green-800 hover:to-emerald-800 
+                  rounded-xl transition-all duration-300 group font-medium text-white text-base 
+                  shadow-xl shadow-green-900/20 inline-block"
+              >
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
@@ -245,7 +249,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

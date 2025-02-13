@@ -22,24 +22,38 @@ export default function App({ Component, pageProps }: AppProps) {
     gsap.registerPlugin(ScrollTrigger);
   }, []);
 
+  if (router.pathname.startsWith('/configure/')) {
+    return (
+      <Provider store={store}>
+        <ErrorBoundary>
+          <Component {...pageProps} />
+        </ErrorBoundary>
+      </Provider>
+    );
+  }
+
   return (
     <Provider store={store}>
       <ErrorBoundary>
-        {isAuthPage ? (
-          <Component {...pageProps} />
-        ) : (
-          <div className="min-h-screen bg-black">
-            <Navbar />
-            <main className="w-full">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+          <Navbar />
+          {isAuthPage ? (
+            <div className="pt-20">
               <Component {...pageProps} />
-            </main>
-            <OpenAnimation />
-            <LaptopProduct />
-            <LenovoProduct />
-            <AcerPredatorPage />
-            <Footer />
-          </div>
-        )}
+            </div>
+          ) : (
+            <>
+              <main className="w-full">
+                <Component {...pageProps} />
+              </main>
+              <OpenAnimation />
+              <LaptopProduct />
+              <LenovoProduct />
+              <AcerPredatorPage />
+              <Footer />
+            </>
+          )}
+        </div>
       </ErrorBoundary>
     </Provider>
   );

@@ -254,27 +254,27 @@ export default function Home() {
       <div className="absolute bottom-20 w-full flex justify-around z-20">
         <button 
           className="group relative px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300"
-          onClick={() => window.location.href = '/products/rog-strix'}
+          onClick={() => window.location.href = '/configure/1'}
         >
           <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <span className="relative flex items-center space-x-2 text-white font-semibold">
             <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span>Buy ROG Strix</span>
+            <span>Configure ROG Strix</span>
           </span>
         </button>
 
         <button 
           className="group relative px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300"
-          onClick={() => window.location.href = '/products/alienware'}
+          onClick={() => window.location.href = '/configure/8'}
         >
           <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <span className="relative flex items-center space-x-2 text-white font-semibold">
             <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span>Buy Alienware</span>
+            <span>Configure Alienware</span>
           </span>
         </button>
       </div>
