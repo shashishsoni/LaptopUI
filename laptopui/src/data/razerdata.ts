@@ -16,30 +16,84 @@ export interface RazerProduct {
       label: string;
       value: string;
     }[];
+    configurations: {
+      processor: {
+        name: string;
+        required: boolean;
+        options: {
+          id: string;
+          name: string;
+          price: number;
+          description: string;
+        }[];
+      };
+      graphics: {
+        name: string;
+        required: boolean;
+        options: {
+          id: string;
+          name: string;
+          price: number;
+          description: string;
+        }[];
+      };
+      memory: {
+        name: string;
+        required: boolean;
+        options: {
+          id: string;
+          name: string;
+          price: number;
+          description: string;
+        }[];
+      };
+      storage: {
+        name: string;
+        required: boolean;
+        options: {
+          id: string;
+          name: string;
+          price: number;
+          description: string;
+        }[];
+      };
+      display: {
+        name: string;
+        required: boolean;
+        options: {
+          id: string;
+          name: string;
+          price: number;
+          description: string;
+        }[];
+      };
+    };
   }
   
-  export const razerLaptops: RazerProduct[] = [
+  export const razerProducts: RazerProduct[] = [
     {
-      id: 1,
+      id: 10,
       name: "Razer Blade 16",
-      category: "Elite Gaming",
-      description: "The world's first dual-mode mini-LED laptop with desktop-class performance.",
+      category: "Gaming",
+      description: "The ultimate gaming laptop with desktop-grade performance",
       specs: [
         "Intel i9-13950HX",
-        "NVIDIA RTX 4090 16GB",
-        "64GB DDR5 5600MHz",
+        "RTX 4090 16GB",
+        "64GB DDR5",
         "4TB NVMe SSD",
-        "16\" Dual-Mode Display",
-        "Vapor Chamber Cooling"
+        "16\" 240Hz OLED",
+        "Vapor Chamber"
       ],
-      images: [
-        "/image/razer1.webp",
-        "/image/razer2.jpg",
-        "/image/razer3.jpg",
-        "/image/razer4.jpg"
-      ],
+      images: ["/image/razer1.webp", "/image/razer2.jpg", "/image/razer3.jpg", "/image/razer4.jpg"],
       video: "/video/razer.mp4",
-      price: "$3,999",
+      price: "$3,499",
+      performance: [
+        { label: "Gaming Performance", value: "99%" },
+        { label: "Ray Tracing", value: "95%" },
+        { label: "Content Creation", value: "97%" },
+        { label: "Thermal Efficiency", value: "94%" },
+        { label: "Battery Life", value: "92%" }
+      ],
       features: [
         {
           title: "Dual-Mode Display",
@@ -52,21 +106,112 @@ export interface RazerProduct {
           icon: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
         },
         {
-          title: "CNC Aluminum",
-          description: "Precision-crafted unibody design",
-          icon: "M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-        },
-        {
           title: "Chroma RGB",
           description: "Per-key RGB with 16.8M colors",
-          icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+          icon: "M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+        },
+        {
+          title: "THX Spatial Audio",
+          description: "360° immersive gaming audio",
+          icon: "M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 010-7.072m12.728 0l3.182-3.182M5.586 8.464L2.404 5.282m0 13.436l3.182-3.182M18.314 18.718l3.182 3.182M12 12h.01"
+        },
+        {
+          title: "NVIDIA DLSS 3",
+          description: "AI-powered performance boost",
+          icon: "M13 10V3L4 14h7v7l9-11h-7z"
         }
       ],
-      performance: [
-        { label: "Gaming", value: "100%" },
-        { label: "Content Creation", value: "95%" },
-        { label: "Ray Tracing", value: "98%" },
-        { label: "Thermal Efficiency", value: "90%" }
-      ]
+      configurations: {
+        processor: {
+          name: "Processor",
+          required: true,
+          options: [
+            {
+              id: "base",
+              name: "Intel Core i9-13950HX",
+              price: 0,
+              description: "24 Cores, Up to 5.5GHz"
+            },
+            {
+              id: "i9-14900HX",
+              name: "Intel Core i9-14900HX",
+              price: 600,
+              description: "32 Cores, Up to 5.8GHz"
+            }
+          ]
+        },
+        graphics: {
+          name: "Graphics",
+          required: true,
+          options: [
+            {
+              id: "base",
+              name: "NVIDIA RTX 4080",
+              price: 0,
+              description: "16GB GDDR6X, Ray Tracing"
+            },
+            {
+              id: "rtx4090",
+              name: "NVIDIA RTX 4090",
+              price: 500,
+              description: "24GB GDDR6X, Ultimate Performance"
+            }
+          ]
+        },
+        memory: {
+          name: "Memory",
+          required: true,
+          options: [
+            {
+              id: "base",
+              name: "32GB DDR5",
+              price: 0,
+              description: "5600MHz Dual Channel"
+            },
+            {
+              id: "64gb",
+              name: "64GB DDR5",
+              price: 400,
+              description: "6400MHz Dual Channel"
+            }
+          ]
+        },
+        storage: {
+          name: "Storage",
+          required: true,
+          options: [
+            {
+              id: "base",
+              name: "2TB NVMe SSD",
+              price: 0,
+              description: "PCIe Gen4 Performance"
+            },
+            {
+              id: "4tb",
+              name: "4TB RAID 0",
+              price: 600,
+              description: "2x 2TB NVMe SSDs"
+            }
+          ]
+        },
+        display: {
+          name: "Display",
+          required: true,
+          options: [
+            {
+              id: "base",
+              name: '16" Mini-LED 240Hz',
+              price: 0,
+              description: "2560x1600, HDR 1000"
+            },
+            {
+              id: "4k",
+              name: '16" 4K Mini-LED',
+              price: 400,
+              description: "3840x2400, HDR 1600"
+            }
+          ]
+        }
+      }
     }
   ];

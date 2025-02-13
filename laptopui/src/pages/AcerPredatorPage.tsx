@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import type { AcerProduct } from '../data/AcerData';
 import { acerProducts } from '../data/AcerData';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const DetailedSpecsSection = React.memo(({ specs }: { specs: AcerProduct['detailedSpecs'] }) => (
   <div className="mt-8 relative">
@@ -68,6 +69,10 @@ const AcerPredatorPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const handleConfigureClick = (laptopId: string) => {
+    router.push(`/configure/${laptopId}`);
+  };
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -177,6 +182,10 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
     });
   }, [activeIndex]);
 
+  function handleConfigureClick(id: number): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div ref={displayRef} className="relative w-full h-full group">
       {/* Content */}
@@ -215,23 +224,14 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
               </span>
             </div>
           </div>
-          <button 
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 
-              hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 group
-              relative z-50 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/configure/${product.id}`);
-            }}
+          <Link
+            href={`/configure/${product.id}`}
+            className="px-6 py-3 bg-gradient-to-r from-green-600 to-cyan-600 
+              rounded-lg hover:from-green-500 hover:to-cyan-500 transition-all duration-300 
+              text-white font-medium shadow-lg shadow-green-500/20"
           >
-            <span className="flex items-center gap-2">
-              Configure Now
-              <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
-                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </span>
-          </button>
+            Configure Now
+          </Link>
         </div>
       </div>
     </div>

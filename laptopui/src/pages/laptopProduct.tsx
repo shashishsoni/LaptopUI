@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import gsap from 'gsap';
 import type { LaptopProduct } from '../data/asusdata';
 import { asusLaptops } from '../data/asusdata';
 
 const LaptopProduct = () => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeLaptop, setActiveLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -91,6 +93,10 @@ const LaptopProduct = () => {
     rotationInterval.current = setInterval(rotateDisplays, 5000);
   };
 
+  const handleConfigureClick = (laptopId: string) => {
+    window.open(`/configure/${laptopId}`, '_blank', 'noopener,noreferrer');
+  };
+
   const renderCard = (index: number) => {
     return (
       <div
@@ -158,10 +164,16 @@ const LaptopProduct = () => {
                           </div>
                         ))}
                       </div>
-                      <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl 
-                        hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 
-                        font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105
-                        transform active:scale-95">
+                      <button 
+                        className="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl 
+                          hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 
+                          font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105
+                          transform active:scale-95"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleConfigureClick(asusLaptops[activeLaptop].id.toString());
+                        }}
+                      >
                         Configure Now
                       </button>
                     </div>
@@ -288,10 +300,16 @@ const LaptopProduct = () => {
                                   </div>
                                 ))}
                               </div>
-                              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl 
-                                hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 
-                                font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105
-                                transform active:scale-95">
+                              <button 
+                                className="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl 
+                                  hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 
+                                  font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105
+                                  transform active:scale-95"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleConfigureClick(asusLaptops[activeLaptop].id.toString());
+                                }}
+                              >
                                 Configure Now
                               </button>
                             </div>

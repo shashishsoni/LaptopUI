@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import type { AlienwareProduct } from '../data/alienwaresdata';
-import { alienwareLaptops } from '../data/alienwaresdata';
+import { AlienwareProduct, alienwareLaptops } from '../data/alienwaresdata';
+import Link from 'next/link';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -274,9 +274,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               </p>
               
               {/* Config Button */}
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-red-900 to-purple-900 hover:from-red-800 hover:to-purple-800 
-                rounded-xl transition-all duration-300 group font-medium text-white text-base 
-                shadow-xl shadow-red-900/20">
+              <Link
+                href={`/configure/${product.id}`}
+                className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-purple-600 rounded-xl
+                  hover:from-red-500 hover:to-purple-500 transition-all duration-300 group
+                  font-medium text-white text-base shadow-xl shadow-red-500/20 inline-block"
+              >
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
@@ -284,7 +287,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

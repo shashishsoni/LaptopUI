@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import type { LenovoProduct } from '../data/lenovodata';
@@ -10,6 +11,7 @@ import MSIPage from './msipage';
 gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalScrollPage = () => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeLaptop, setActiveLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +21,10 @@ const HorizontalScrollPage = () => {
   const sideCardsRef = useRef<HTMLDivElement>(null);
   const specsRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const handleConfigureClick = (laptopId: string) => {
+    window.open(`/configure/${laptopId}`, '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -229,6 +235,11 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
   price: string;
 }) => {
   const mainCardRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  
+  const handleConfigureClick = (laptopId: string) => {
+    window.open(`/configure/${laptopId}`, '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     gsap.to(mainCardRef.current, {
@@ -311,9 +322,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
               </p>
               
               {/* Config Button */}
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl
-                hover:from-purple-500 hover:to-cyan-500 transition-all duration-300 group
-                font-medium text-white text-base shadow-xl shadow-purple-500/20">
+              <button 
+                className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl
+                  hover:from-purple-500 hover:to-cyan-500 transition-all duration-300 group
+                  font-medium text-white text-base shadow-xl shadow-purple-500/20"
+                onClick={() => handleConfigureClick(product.id.toString())}
+              >
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 

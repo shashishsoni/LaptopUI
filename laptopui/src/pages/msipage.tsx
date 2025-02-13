@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import type { MSIProduct } from '../data/msidata';
+import Link from 'next/link';
+import type { LenovoProduct } from '../data/lenovodata';
 import { msiProducts } from '../data/msidata';
 
 const MSIPage = () => {
@@ -154,7 +155,7 @@ const MSIPage = () => {
 
 // Helper Components
 const MainCard = React.memo(({ product, activeIndex, category, price }: {
-  product: MSIProduct;
+  product: LenovoProduct;
   activeIndex: number;
   category: string;
   price: string;
@@ -236,9 +237,13 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
                 {product.description}
               </p>
               
-              <button className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl
-                hover:from-red-500 hover:to-orange-500 transition-all duration-300 group
-                font-medium text-white text-base shadow-xl shadow-red-500/20">
+              {/* Config Button */}
+              <Link
+                href={`/configure/${product.id}`}
+                className="mt-4 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl
+                  hover:from-red-500 hover:to-orange-500 transition-all duration-300 group
+                  font-medium text-white text-base shadow-xl shadow-red-500/20 inline-block"
+              >
                 <div className="flex items-center justify-center gap-3">
                   Configure Now
                   <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
@@ -246,7 +251,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
