@@ -2,6 +2,8 @@ import prisma from '../config/database';
 import { hashPassword, verifyPassword } from '../utils/password';
 import jwt from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+
 interface SignupData {
   email: string;
   password: string; // Will be hashed before saving
@@ -20,7 +22,7 @@ export const signup = async (data: SignupData) => {
 
   const token = jwt.sign(
     { userId: user.id },
-    process.env.JWT_SECRET || 'fallback-secret',
+    JWT_SECRET,
     { expiresIn: '24h' }
   );
 
@@ -56,7 +58,7 @@ export const login = async (data: LoginData) => {
     
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET || 'fallback-secret',
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
 

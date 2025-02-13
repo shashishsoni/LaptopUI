@@ -24,30 +24,23 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      // Add basic validation
-      if (!formData.email || !formData.password) {
-        throw new Error('Please fill in all fields');
-      }
-
       const response = await authApi.login(formData);
       
       if (response && response.token) {
-        // Store both token and user data
+        // Store token and user data
         localStorage.setItem('token', response.token);
         localStorage.setItem('userData', JSON.stringify(response.user));
         
+        // Update Redux state
         dispatch(setUser({
           user: response.user,
           token: response.token
         }));
 
-        router.push('/');
-      } else {
-        throw new Error('Invalid response from server');
+        router.push('/'); // Redirect to home page
       }
-    } catch (err: any) {
-      console.error('Login error:', err);
-      setError(err.message || 'Login failed. Please try again.');
+    } catch (error: any) {
+      setError(error.message || 'Login failed');
     } finally {
       setLoading(false);
     }

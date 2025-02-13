@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { LaptopProduct } from '../data/asusdata';
+import { useRouter } from 'next/router';
 
 interface ConfigOption {
   id: string;
@@ -183,6 +184,7 @@ const DroppableTarget = ({
 };
 
 const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
+  const router = useRouter();
   const [selectedConfig, setSelectedConfig] = useState<Record<string, ConfigOption>>({});
   const [laptopConfig, setLaptopConfig] = useState<LaptopConfig | null>(null);
   const [activeDragCategory, setActiveDragCategory] = useState<string | null>(null);
@@ -203,20 +205,18 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
 
     // Set default selections (base options)
     const defaultSelections: Record<string, ConfigOption> = {};
+    let defaultTotal = basePrice;
+
     Object.entries(laptop.configurations).forEach(([key, category]) => {
       const baseOption = category.options.find(opt => opt.id === 'base');
       if (baseOption) {
         defaultSelections[key] = baseOption;
+        defaultTotal += baseOption.price;
       }
     });
+    
     setSelectedConfig(defaultSelections);
-
-    // Initialize total price with base price and default selections
-    if (laptopConfig) {
-      const initialTotal = laptopConfig.basePrice + 
-        Object.values(selectedConfig).reduce((acc, curr) => acc + curr.price, 0);
-      setTotalPrice(initialTotal);
-    }
+    setTotalPrice(defaultTotal);
 
   }, [laptop]);
 
@@ -233,20 +233,47 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
   };
 
   const handleDrop = (categoryKey: string, option: ConfigOption) => {
-    // Calculate price difference between old and new component
+    // Get the old option's price
     const oldOption = selectedConfig[categoryKey];
-    const priceDifference = option.price - (oldOption?.price || 0);
+    const oldPrice = oldOption?.price || 0;
+    
+    // Calculate new total price
+    const newTotal = totalPrice - oldPrice + option.price;
 
     setSelectedConfig(prev => ({
       ...prev,
       [categoryKey]: option
     }));
 
-    // Update total price
-    setTotalPrice(prevTotal => prevTotal + priceDifference);
+    setTotalPrice(newTotal);
 
     setActiveDragCategory(null);
     setDraggedOption(null);
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      // Instead of creating order directly, redirect to payment gateway
+      router.push({
+        pathname: '/payment',
+        query: {
+          amount: totalPrice,
+          basePrice: laptop.price,
+          config: JSON.stringify(selectedConfig),
+          model: laptop.name
+        }
+      });
+
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      alert(error.message || 'Failed to proceed to checkout. Please try again.');
+    }
   };
 
   if (!laptopConfig) return null;
@@ -456,6 +483,7 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
                     disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={Object.keys(selectedConfig).length < 
                     Object.values(laptopConfig.categories).filter(cat => cat.required).length}
+                  onClick={handleCheckout}
                 >
                   {Object.keys(selectedConfig).length < 
                     Object.values(laptopConfig.categories).filter(cat => cat.required).length
