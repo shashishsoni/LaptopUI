@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "prisma generate --schema=./src/server/prisma/schema.prisma && node scripts/copy-engine.js",
-    "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && prisma db push --schema=./src/server/prisma/schema.prisma && next build",
+    "postinstall": "prisma generate --schema=./src/server/prisma/schema.prisma || true",
+    "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && next build",
     "dev": "npm run postinstall && next dev",
     "server": "cd src/server && ts-node src/server.ts",
     "dev:server": "cd src/server && nodemon src/server.ts",

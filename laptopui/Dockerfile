@@ -38,8 +38,8 @@ RUN npm ci --omit=dev || \
 # Copy all files
 COPY . .
 
-# Generate Prisma client
-RUN npm run prisma:generate
+# Generate Prisma client with correct binary targets
+RUN npx prisma generate --schema=./src/server/prisma/schema.prisma
 
 # Build Next.js
 RUN npm run build
