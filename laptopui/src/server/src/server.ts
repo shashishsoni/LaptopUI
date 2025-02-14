@@ -40,11 +40,28 @@ const PORT = parseInt(process.env.PORT || '5000', 10);
 const startServer = async () => {
   try {
     await connectDB();
-    console.log('✅ Database connected successfully');
     
-    app.listen(PORT, '0.0.0.0', () => {
+    // Check if port is in use and try alternative
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log('👉 API endpoint:', `http://localhost:${PORT}/api`);
+    }).on('error', (err: NodeJS.ErrnoException) => {
+      if (err.code === 'EADDRINUSE') {
+        console.log(`⚠️ Port ${PORT} is busy, trying ${PORT + 1}`);
+        app.listen(PORT + 1, '0.0.0.0', () => {
+          console.log(`🚀 Server running on port ${PORT + 1}`);
+        });
+      } else {
+        console.error('❌ Server error:', err);
+        process.exit(1);
+      }
+    });
+
+    // Cleanup on shutdown
+    process.on('SIGTERM', () => {
+      server.close(() => {
+        console.log('👋 Server shutdown complete');
+        process.exit(0);
+      });
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
@@ -53,9 +70,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-// Handle server shutdown
-process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM received. Shutting down gracefully');
-  process.exit(0);
-});
