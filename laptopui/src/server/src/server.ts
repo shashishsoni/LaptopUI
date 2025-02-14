@@ -10,13 +10,16 @@ dotenv.config();
 
 const app = express();
 
-// Enhanced CORS configuration
+// Configure CORS for production
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' 
+    ? 'https://your-frontend-domain.com'  // Replace with your Vercel domain
+    : 'http://localhost:3000',
   credentials: true
 }));
 
 app.use(express.json());
+app.use(express.static('public')); // Serve static files including videos
 
 // Health check route
 app.get('/health', (_, res) => {
@@ -27,16 +30,21 @@ app.get('/health', (_, res) => {
 app.use('/api/auth', authRoutes);
 // app.use('/api/laptops', laptopRoutes);
 
-// Connect to Database
+// Add video serving route
+app.get('/video/:filename', (req, res) => {
+  res.sendFile(`${__dirname}/public/video/${req.params.filename}`);
+});
+
+const PORT = parseInt(process.env.PORT || '5000', 10);
+
 const startServer = async () => {
   try {
     await connectDB();
     console.log('✅ Database connected successfully');
     
-    const port = process.env.PORT || 5000;
-    app.listen(port, () => {
-      console.log(`🚀 Server running on http://localhost:${port}`);
-      console.log('👉 API endpoint:', `http://localhost:${port}/api`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log('👉 API endpoint:', `http://localhost:${PORT}/api`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);

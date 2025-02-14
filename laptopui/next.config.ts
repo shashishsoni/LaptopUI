@@ -14,14 +14,34 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Add this to properly handle videos
+  async headers() {
+    return [
+      {
+        source: '/video/:path*',
+        headers: [
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes'
+          },
+          {
+            key: 'Content-Type',
+            value: 'video/mp4'
+          }
+        ],
+      },
+    ];
+  },
+  // Update webpack config
   webpack: (config: Configuration) => {
     config.module?.rules?.push({
       test: /\.(mp4|webm)$/i,
       use: [{
         loader: 'file-loader',
         options: {
-          publicPath: '/_next',
-          name: 'static/media/[name].[hash].[ext]',
+          publicPath: '/_next/static/videos',
+          outputPath: 'static/videos',
+          name: '[name].[hash].[ext]',
         },
       }],
     });
