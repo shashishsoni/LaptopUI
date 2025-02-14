@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";

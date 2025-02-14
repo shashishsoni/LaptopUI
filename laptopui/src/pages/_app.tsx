@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import OpenAnimation from "../components/openanimation";
 import LaptopProduct from "../pages/laptopProduct";
 import LenovoProduct from "../pages/lenovoproduct";

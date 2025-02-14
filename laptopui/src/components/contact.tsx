@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Navbar from "../components/navbar";
+import Navbar from "./Navbar";
 
 const ContactInfo = ({ icon, title, details }: { icon: string; title: string; details: string[] }) => {
   const [ref, inView] = useInView({
