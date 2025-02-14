@@ -4,11 +4,11 @@ import '@react-three/fiber';
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      mesh: any;
-      primitive: any;
-      pointLight: any;
-      ambientLight: any;
-      group: any;
+      mesh: THREE.Mesh;
+      primitive: THREE.Object3D;
+      pointLight: THREE.PointLight;
+      ambientLight: THREE.AmbientLight;
+      group: THREE.Group;
     }
   }
 }
