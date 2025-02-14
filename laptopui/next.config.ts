@@ -14,7 +14,16 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Add this to properly handle videos
+  // Configure static file serving
+  async rewrites() {
+    return [
+      {
+        source: '/video/:path*',
+        destination: '/public/video/:path*'
+      }
+    ];
+  },
+  // Configure headers for video streaming
   async headers() {
     return [
       {
