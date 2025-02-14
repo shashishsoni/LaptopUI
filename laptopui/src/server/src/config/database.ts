@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config();
 
@@ -12,14 +11,9 @@ const prisma = new PrismaClient({
   datasources: {
     db: {
       url: process.env.DATABASE_URL
-    },
-  },
-  log: ['query', 'error', 'warn'],
-  __internal: {
-    engine: {
-      binaryPath: path.join(__dirname, '../../node_modules/.prisma/client/query_engine-windows.dll.node')
     }
-  }
+  },
+  log: ['query', 'error', 'warn']
 });
 
 export const connectDB = async () => {
