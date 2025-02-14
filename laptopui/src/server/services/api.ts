@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { store } from '../../redux/store';
 
 interface CartItem {
@@ -49,10 +49,11 @@ const api = axios.create({
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     console.log(`🚀 Making ${config.method?.toUpperCase()} request to ${config.url}`);
     const token = store.getState().user.token;
-    if (token && config.headers) {
+    
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
