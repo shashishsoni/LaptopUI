@@ -10,7 +10,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:all": "node scripts/build.js"
+    "build:all": "node scripts/build.js",
+    "install:all": "npm install && cd src/server && npm install",
+    "install:clean": "rm -rf node_modules && rm -rf src/server/node_modules && npm run install:all"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
