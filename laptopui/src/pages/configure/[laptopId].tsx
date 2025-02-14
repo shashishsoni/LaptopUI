@@ -1,4 +1,3 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
 import LaptopConfigure from '../../components/laptopconfigure';
 import { asusLaptops } from '../../data/asusdata';
 import { lenovoProducts } from '../../data/lenovodata';
@@ -10,6 +9,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../../components/navbar';
+import { LaptopProduct } from '../../types/global';
+import { NextPage } from 'next';
 
 export async function getStaticPaths() {
   // Combine all laptop IDs from different brands
@@ -58,7 +59,11 @@ export async function getStaticProps({ params }: { params: { laptopId: string } 
   };
 }
 
-const ConfigurePage = ({ laptop }: { laptop: any }) => {
+interface ConfigurePageProps {
+  laptop: LaptopProduct;
+}
+
+const ConfigurePage: NextPage<ConfigurePageProps> = ({ laptop }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

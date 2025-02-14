@@ -3,9 +3,8 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, setUser } from '../redux/slices/userSlice';
+import { logout } from '../redux/slices/userSlice';
 import type { RootState } from '../redux/store';
-import { routes } from '../routes/routes';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const menuItems = [

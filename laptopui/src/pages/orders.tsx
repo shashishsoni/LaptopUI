@@ -8,18 +8,20 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../redux/store';
 import type { Order } from '../types/orders';
 
-interface OrderConfig {
-  name: string;
-  price: number;
-  description: string;
-}
-
+// Add type for order items
 interface OrderItem {
-  id: string;
-  name: string;
+  productId: string;
+  productName: string;
   brand: string;
   basePrice: number;
-  configuration: Record<string, OrderConfig>;
+  configuration: Array<{
+    category: string;
+    selected: {
+      name: string;
+      price: number;
+      description: string;
+    };
+  }>;
   price: number;
 }
 
@@ -28,7 +30,6 @@ export default function OrdersPage() {
   const [mounted, setMounted] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { profile: user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -39,7 +40,6 @@ export default function OrdersPage() {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        setError(null);
         const token = localStorage.getItem('token');
         
         if (!token || !user?.id) {
@@ -61,7 +61,6 @@ export default function OrdersPage() {
         setOrders(data);
       } catch (err) {
         console.error('Error fetching orders:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch orders');
       } finally {
         setLoading(false);
       }
@@ -127,60 +126,71 @@ export default function OrdersPage() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {orders.map((order) => (
-                    <motion.div
-                      key={order.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors"
-                    >
-                      <div className="flex flex-col md:flex-row justify-between gap-6">
-                        <div>
-                          <div className="flex items-center gap-4 mb-4">
-                            <h3 className="text-xl font-semibold text-white">{order.items[0].name}</h3>
-                            <span className={`px-3 py-1 rounded-full text-sm font-medium 
-                              ${order.status === 'PROCESSING' ? 'bg-blue-500/20 text-blue-400' :
-                                order.status === 'SHIPPED' ? 'bg-yellow-500/20 text-yellow-400' :
-                                'bg-green-500/20 text-green-400'}`}
-                            >
-                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                            </span>
-                          </div>
-                          <p className="text-gray-400 mb-2">Order ID: {order.orderId}</p>
-                          <p className="text-gray-400 mb-4">
-                            Ordered on {new Date(order.createdAt).toLocaleDateString()}
-                          </p>
-                          <div className="space-y-2">
-                            {order.items.map((item, index) => (
-                              <div key={index} className="flex justify-between text-sm text-gray-300">
-                                <span className="capitalize">{item.name}</span>
-                                <div className="text-right">
-                                  <span>{item.name}</span>
-                                  {item.price > 0 && (
-                                    <span className="text-blue-400 ml-2">+${item.price.toFixed(2)}</span>
-                                  )}
+                  {orders.map((order) => {
+                    // Safely parse items or use default empty array
+                    let items: OrderItem[] = [];
+                    try {
+                      items = typeof order.items === 'string' 
+                        ? JSON.parse(order.items)
+                        : Array.isArray(order.items) 
+                          ? order.items 
+                          : [];
+                    } catch (error) {
+                      console.error('Error parsing order items:', error);
+                    }
+                    
+                    return (
+                      <motion.div
+                        key={order.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors"
+                      >
+                        <div className="flex flex-col md:flex-row justify-between gap-6">
+                          <div>
+                            <div className="flex items-center gap-4 mb-4">
+                              <h3 className="text-xl font-semibold text-white">{items[0]?.productName || 'Order'}</h3>
+                              <span className={`px-3 py-1 rounded-full text-sm font-medium 
+                                ${order.status === 'PROCESSING' ? 'bg-blue-500/20 text-blue-400' :
+                                  order.status === 'SHIPPED' ? 'bg-yellow-500/20 text-yellow-400' :
+                                  'bg-green-500/20 text-green-400'}`}
+                              >
+                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                              </span>
+                            </div>
+                            <p className="text-gray-400 mb-2">Order ID: {order.orderId}</p>
+                            <p className="text-gray-400 mb-4">
+                              Ordered on {new Date(order.createdAt).toLocaleDateString()}
+                            </p>
+                            <div className="space-y-2">
+                              {items.map((item, index) => (
+                                <div key={index} className="flex justify-between text-sm text-gray-300">
+                                  <span className="capitalize">{item.productName}</span>
+                                  <div className="text-right">
+                                    <span>${item.price.toFixed(2)}</span>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-white mb-2">
+                              ${order.total.toFixed(2)}
+                            </div>
+                            <p className="text-sm text-gray-400 mb-4">
+                              Estimated Delivery: {new Date(order.estimatedDelivery).toLocaleDateString()}
+                            </p>
+                            <button
+                              onClick={() => {/* Add tracking logic */}}
+                              className="bg-white/10 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors"
+                            >
+                              Track Order
+                            </button>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-white mb-2">
-                            ${order.total.toFixed(2)}
-                          </div>
-                          <p className="text-sm text-gray-400 mb-4">
-                            Estimated Delivery: {new Date(order.estimatedDelivery).toLocaleDateString()}
-                          </p>
-                          <button
-                            onClick={() => {/* Add tracking logic */}}
-                            className="bg-white/10 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors"
-                          >
-                            Track Order
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               )}
             </motion.div>

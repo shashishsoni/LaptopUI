@@ -3,13 +3,14 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { AlienwareProduct, alienwareLaptops } from '../data/alienwaresdata';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const AlienwarePage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeLaptop, setActiveLaptop] = useState(0);
+  const [activeLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -225,9 +226,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
             src={product.video}
           />
         ) : (
-          <img
+          <Image
             src={product.images[activeIndex]}
             alt={product.name}
+            width={1200}
+            height={800}
+            priority={activeIndex === 0}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
@@ -295,6 +299,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
     </div>
   );
 });
+MainCard.displayName = 'MainCard';
 
 // SideCard Component
 const SideCard = React.memo(({ index, image, onClick }: { index: number; image: string; onClick: () => void }) => (
@@ -304,9 +309,11 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
   >
     <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-purple-900/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
-    <img
+    <Image
       src={image}
       alt={`View ${index}`}
+      width={400}
+      height={300}
       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
     />
     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 
@@ -317,14 +324,6 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
     </div>
   </div>
 ));
-
-// AlienwareM Component (placeholder for Section 2)
-const AlienwareM = () => {
-  return (
-    <div className="w-full h-full relative overflow-hidden">
-      {/* Add content for Alienware M-Series section */}
-    </div>
-  );
-};
+SideCard.displayName = 'SideCard';
 
 export default AlienwarePage;

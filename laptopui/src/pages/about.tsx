@@ -1,9 +1,7 @@
 import AboutPage from '../components/aboutpage';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function About() {
-  const router = useRouter();
   
   useEffect(() => {
     // Ensure this page is loaded independently

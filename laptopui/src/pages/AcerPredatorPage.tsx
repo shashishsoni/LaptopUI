@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import type { AcerProduct } from '../data/AcerData';
 import { acerProducts } from '../data/AcerData';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const DetailedSpecsSection = React.memo(({ specs }: { specs: AcerProduct['detailedSpecs'] }) => (
   <div className="mt-8 relative">
@@ -62,29 +62,25 @@ const DetailedSpecsSection = React.memo(({ specs }: { specs: AcerProduct['detail
     </div>
   </div>
 ));
+DetailedSpecsSection.displayName = 'DetailedSpecsSection';
 
-const AcerPredatorPage = () => {
+const AcerPredatorPage: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeLaptop, setActiveLaptop] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-
-  const handleConfigureClick = (laptopId: string) => {
-    router.push(`/configure/${laptopId}`);
-  };
+  const [activeLaptop] = useState(0);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.from(heroRef.current, {
+    tl.from(titleRef.current, {
       y: 100,
       opacity: 0,
       duration: 1,
       filter: "blur(10px)",
     });
+    
     return () => {
       tl.kill();
-      return undefined;
+      void 0;  // Explicitly return void
     };
   }, []);
 
@@ -93,7 +89,7 @@ const AcerPredatorPage = () => {
       {/* Scrollable Content */}
       <div className="relative z-20 min-h-screen">
         {/* Hero Section */}
-        <div ref={heroRef} className="container mx-auto px-4 py-8">
+        <div ref={titleRef} className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm border border-cyan-500/20 mb-4">
               <span className="text-cyan-400">Acer</span>
@@ -110,9 +106,11 @@ const AcerPredatorPage = () => {
 
           {/* Main Product Display */}
           <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">
-            <ProductDisplay
+            <MainCard
               product={acerProducts[activeLaptop]}
               activeIndex={activeIndex}
+              category={acerProducts[activeLaptop].category}
+              price={acerProducts[activeLaptop].price}
             />
           </div>
 
@@ -160,34 +158,14 @@ const AcerPredatorPage = () => {
   );
 };
 
-const ProductDisplay = React.memo(({ product, activeIndex }: { 
+const MainCard = React.memo(({ product, activeIndex, category, price }: {
   product: AcerProduct;
   activeIndex: number;
+  category: string;
+  price: string;
 }) => {
-  const router = useRouter();
-  const displayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    gsap.to(displayRef.current, {
-      opacity: 0,
-      scale: 0.95,
-      duration: 0.3,
-      onComplete: () => {
-        gsap.to(displayRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-        });
-      },
-    });
-  }, [activeIndex]);
-
-  function handleConfigureClick(id: number): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
-    <div ref={displayRef} className="relative w-full h-full group">
+    <div className="relative w-full h-full group">
       {/* Content */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 opacity-0 
         group-hover:opacity-100 transition-opacity duration-500" />
@@ -203,9 +181,12 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
           src={product.video}
         />
       ) : (
-        <img
+        <Image
           src={product.images[activeIndex]}
           alt={product.name}
+          width={1200}
+          height={800}
+          priority={activeIndex === 0}
           className="w-full h-full object-cover"
         />
       )}
@@ -217,10 +198,10 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
             <h3 className="text-2xl font-bold mb-2">{product.name}</h3>
             <div className="flex items-center gap-4">
               <span className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 text-sm">
-                {product.category}
+                {category}
               </span>
               <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                {product.price}
+                {price}
               </span>
             </div>
           </div>
@@ -237,6 +218,7 @@ const ProductDisplay = React.memo(({ product, activeIndex }: {
     </div>
   );
 });
+MainCard.displayName = 'MainCard';
 
 const ThumbnailCard = React.memo(({ image, isActive, onClick }: { 
   image: string;
@@ -249,11 +231,18 @@ const ThumbnailCard = React.memo(({ image, isActive, onClick }: {
       ${isActive ? 'ring-2 ring-cyan-500 scale-[1.02]' : 'hover:ring-2 hover:ring-cyan-500/50'}
       group`}
   >
-    <img src={image} alt="Thumbnail" className="w-full h-full object-cover" />
+    <Image
+      src={image}
+      alt="Thumbnail"
+      width={400}
+      height={300}
+      className="w-full h-full object-cover"
+    />
     <div className={`absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 
       transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}`} />
   </div>
 ));
+ThumbnailCard.displayName = 'ThumbnailCard';
 
 const FeatureCard = React.memo(({ icon, title, description }: {
   icon: string;
@@ -273,6 +262,7 @@ const FeatureCard = React.memo(({ icon, title, description }: {
     </div>
   </div>
 ));
+FeatureCard.displayName = 'FeatureCard';
 
 const StatCard = React.memo(({ label, value, color }: {
   label: string;
@@ -306,5 +296,43 @@ const StatCard = React.memo(({ label, value, color }: {
     </div>
   </div>
 ));
+StatCard.displayName = 'StatCard';
+
+const SideCard = React.memo(({ index, image, onClick }: {
+  index: number;
+  image: string;
+  onClick: () => void;
+}) => (
+  <div onClick={onClick}>
+    <Image
+      src={image}
+      alt={`View ${index}`}
+      width={400}
+      height={300}
+      className="w-full h-full object-cover"
+    />
+  </div>
+));
+SideCard.displayName = 'SideCard';
+
+const SpecBadge = React.memo(({ spec }: { spec: string }) => (
+  <div className="group hover-card-effect bg-black/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 
+    hover:border-cyan-500/50 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 opacity-0 
+      group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="relative z-10 flex flex-col items-center gap-3">
+      <div className="w-10 h-10 rounded-full bg-cyan-500/30 flex items-center justify-center 
+        group-hover:scale-110 transition-transform border border-cyan-500/30">
+        <svg className="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      </div>
+      <span className="text-white text-sm font-medium group-hover:text-cyan-300 transition-colors text-center">
+        {spec}
+      </span>
+    </div>
+  </div>
+));
+SpecBadge.displayName = 'SpecBadge';
 
 export default AcerPredatorPage;

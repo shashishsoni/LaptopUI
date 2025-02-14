@@ -31,6 +31,11 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+interface ApiError {
+  message: string;
+  code?: string;
+}
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
@@ -75,11 +80,9 @@ export const authApi = {
     try {
       const response = await api.post<AuthResponse>('/auth/login', credentials);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.status === 401) {
-        throw new Error('Invalid email or password');
-      }
-      throw new Error(error.response?.data?.message || 'Login failed');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(errorMessage);
     }
   },
 
@@ -87,11 +90,9 @@ export const authApi = {
     try {
       const response = await api.post('/auth/signup', data);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.status === 409) {
-        throw new Error('Email already exists');
-      }
-      throw new Error(error.response?.data?.message || 'Signup failed');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(errorMessage);
     }
   },
 
@@ -99,8 +100,9 @@ export const authApi = {
     try {
       const response = await api.get<CartItem[]>('/user/cart');
       return response.data;
-    } catch (error) {
-      console.warn('Failed to fetch cart:', error);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.warn('Failed to fetch cart:', errorMessage);
       return [];
     }
   },
@@ -109,8 +111,9 @@ export const authApi = {
     try {
       const response = await api.get<Order[]>('/user/orders');
       return response.data;
-    } catch (error) {
-      console.warn('Failed to fetch orders:', error);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.warn('Failed to fetch orders:', errorMessage);
       return [];
     }
   }
@@ -121,8 +124,8 @@ export const handleResponse = <T>(data: T): ApiResponse<T> => ({
   status: 200
 });
 
-export const handleError = (error: Error): ApiResponse<null> => ({
+export const handleError = (error: Error | ApiError): ApiResponse<null> => ({
   data: null,
   status: 400,
-  message: error.message
+  message: 'message' in error ? error.message : 'Unknown error occurred'
 }); 

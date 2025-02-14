@@ -11,7 +11,6 @@ import {
 } from '@stripe/react-stripe-js';
 import Head from 'next/head';
 import Navbar from './navbar';
-import { generateOrderId } from '../utils/orderUtils';
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -37,7 +36,8 @@ const CheckoutForm = ({ amount, onSuccess }: { amount: number; onSuccess: () => 
         await new Promise(resolve => setTimeout(resolve, 1500));
         onSuccess();
       } catch (err) {
-        setError('UPI payment failed. Please try again.');
+        const errorMessage = err instanceof Error ? err.message : 'UPI payment failed';
+        setError(errorMessage);
       }
       return;
     }
@@ -75,8 +75,10 @@ const CheckoutForm = ({ amount, onSuccess }: { amount: number; onSuccess: () => 
       } else if (paymentIntent.status === 'succeeded') {
         onSuccess();
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Payment failed';
+      console.error('Payment error:', error);
+      setError(errorMessage);
     }
 
     setProcessing(false);
@@ -255,11 +257,11 @@ const PaymentGateway = () => {
         throw new Error(errorData.message || 'Failed to save order');
       }
 
-      const data = await response.json();
       router.push('/orders');
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Payment failed';
       console.error('Payment error:', error);
-      setError(error instanceof Error ? error.message : 'Payment failed');
+      setError(errorMessage);
     }
   };
 
@@ -289,6 +291,11 @@ const PaymentGateway = () => {
 
           <div className="pt-32 pb-16 px-4">
             <div className="max-w-3xl mx-auto">
+              {error && (
+                <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400">
+                  {error}
+                </div>
+              )}
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -348,3 +355,4 @@ const PaymentGateway = () => {
 };
 
 export default PaymentGateway;
+

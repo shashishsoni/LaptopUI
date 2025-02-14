@@ -71,6 +71,9 @@ export const login = async (data: LoginData) => {
       token
     };
   } catch (error: unknown) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred');
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Unknown error occurred');
   }
 }; 

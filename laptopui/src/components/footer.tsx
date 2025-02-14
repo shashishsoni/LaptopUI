@@ -87,7 +87,6 @@ const SphereContainer = () => {
         {socialLinks.map((link, i) => {
           const total = socialLinks.length;
           const y = 1 - (i / (total - 1)) * 2;
-          const radius = Math.sqrt(1 - y * y);
           const theta = (i * Math.PI * (3 - Math.sqrt(5)));
           const phi = Math.acos(y);
 
@@ -145,7 +144,7 @@ const Footer = () => {
           {/* Main Content */}
           <div className="text-center mb-16">
             <h2 className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Let's Connect
+              Let&apos;s Connect
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg">
               Feel free to reach out for collaborations or just a friendly hello

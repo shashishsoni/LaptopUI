@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import type { LenovoProduct } from '../data/lenovodata';
 import { lenovoProducts } from '../data/lenovodata';
+import Image from 'next/image';
 import AlienwarePage from './alienware';
 import RazerPage from './razer';
 import MSIPage from './msipage';
@@ -11,9 +11,7 @@ import MSIPage from './msipage';
 gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalScrollPage = () => {
-  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeLaptop, setActiveLaptop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -21,10 +19,6 @@ const HorizontalScrollPage = () => {
   const sideCardsRef = useRef<HTMLDivElement>(null);
   const specsRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
-
-  const handleConfigureClick = (laptopId: string) => {
-    window.open(`/configure/${laptopId}`, '_blank', 'noopener,noreferrer');
-  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -113,7 +107,7 @@ const HorizontalScrollPage = () => {
                   <span className="text-white/60">Elite Gaming</span>
                 </div>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
-                  {lenovoProducts[activeLaptop].name}
+                  {lenovoProducts[activeIndex].name}
                 </h1>
                 <p className="mb-5 text-sm text-white/60 max-w-2xl">
                   Experience gaming evolution with cutting-edge technology
@@ -127,10 +121,10 @@ const HorizontalScrollPage = () => {
                   {/* Main Card */}
                   <div className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-28.8rem)] rounded-2xl overflow-hidden">
                     <MainCard 
-                      product={lenovoProducts[activeLaptop]} 
+                      product={lenovoProducts[activeIndex]} 
                       activeIndex={activeIndex}
-                      category={lenovoProducts[activeLaptop].category}
-                      price={lenovoProducts[activeLaptop].price}
+                      category={lenovoProducts[activeIndex].category}
+                      price={lenovoProducts[activeIndex].price}
                     />
                   </div>
                   
@@ -140,7 +134,7 @@ const HorizontalScrollPage = () => {
                       <div key={index} className="relative h-full" onClick={() => setActiveIndex(index)}>
                         <SideCard
                           index={index}
-                          image={lenovoProducts[activeLaptop].images[index]}
+                          image={lenovoProducts[activeIndex].images[index]}
                           onClick={() => setActiveIndex(index)}
                         />
                       </div>
@@ -160,7 +154,7 @@ const HorizontalScrollPage = () => {
                       </span>
                     </div>
                     <div className="space-y-3 pr-2">
-                      {lenovoProducts[activeLaptop].specs.map((spec, idx) => (
+                      {lenovoProducts[activeIndex].specs.map((spec, idx) => (
                         <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
                           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 
@@ -235,7 +229,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
   price: string;
 }) => {
   const mainCardRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+
   
   const handleConfigureClick = (laptopId: string) => {
     window.open(`/configure/${laptopId}`, '_blank', 'noopener,noreferrer');
@@ -273,9 +267,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
             src={product.video}
           />
         ) : (
-          <img
+          <Image
             src={product.images[activeIndex]}
             alt={product.name}
+            width={1200}
+            height={800}
+            priority={activeIndex === 0}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
@@ -343,17 +340,24 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
     </div>
   );
 });
+MainCard.displayName = 'MainCard';
 
-const SideCard = React.memo(({ index, image, onClick }: { index: number; image: string; onClick: () => void }) => (
+const SideCard = React.memo(({ index, image, onClick }: { 
+  index: number; 
+  image: string; 
+  onClick: () => void 
+}) => (
   <div 
     className="relative h-full rounded-xl overflow-hidden cursor-pointer group"
     onClick={onClick}
   >
     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
-    <img
+    <Image
       src={image}
       alt={`View ${index}`}
+      width={400}
+      height={300}
       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
     />
     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 
@@ -365,22 +369,7 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
   </div>
 ));
 
-const SpecBadge = React.memo(({ spec }: { spec: string }) => (
-  <div className="group hover-card-effect bg-black/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 
-    hover:border-purple-500/50 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="relative z-10 flex flex-col items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform
-        border border-purple-500/30">
-        <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      </div>
-      <span className="text-white text-sm font-medium group-hover:text-purple-300 transition-colors text-center">
-        {spec}
-      </span>
-    </div>
-  </div>
-));
+SideCard.displayName = 'SideCard';
+
 
 export default HorizontalScrollPage;

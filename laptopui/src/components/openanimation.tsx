@@ -47,7 +47,7 @@ export default function LaptopAnimationPage() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     if (!containerRef.current || !svgContainerRef.current) return;
@@ -108,7 +108,7 @@ export default function LaptopAnimationPage() {
     return () => {
       tl.kill();
     };
-  }, []);
+  }, [slides.length]);
 
   return (
     <div ref={containerRef} className="w-full h-screen overflow-hidden relative">
@@ -257,7 +257,7 @@ export default function LaptopAnimationPage() {
                   </svg>
                   <h3 className="text-purple-500 text-xl font-semibold">Display</h3>
                 </div>
-                <p className="text-white text-lg font-bold">17.3" 4K OLED</p>
+                <p className="text-white text-lg font-bold">17.3&rdquo; 4K OLED</p>
                 <p className="text-gray-400 mt-2">240Hz Refresh Rate</p>
                 <p className="text-gray-400">3ms Response Time</p>
               </div>

@@ -1,16 +1,21 @@
 import { PrismaClient } from '@prisma/client';
 
-// Prevent multiple instances of Prisma Client in development
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+let prisma: PrismaClient;
 
-const prisma = global.prisma || new PrismaClient({
-  log: ['query', 'error', 'warn'],
-});
-
-if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
+try {
+  prisma = new PrismaClient({
+    errorFormat: 'minimal',
+    log: ['error'],
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL
+      }
+    }
+  });
+} catch (error) {
+  console.error('Failed to initialize Prisma client:', error);
+  // Provide a fallback client with basic functionality
+  prisma = new PrismaClient();
 }
 
 export default prisma;

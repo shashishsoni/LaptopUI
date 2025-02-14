@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/userSlice';
 import { authApi } from '../server/services/api';
 import Head from 'next/head';
 
 const LoginPage = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
@@ -26,7 +23,7 @@ const LoginPage = () => {
     };
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (loading) return;
     
@@ -47,9 +44,10 @@ const LoginPage = () => {
 
         window.location.href = '/';
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
       if (isMounted.current) {
-        setError(error.message || 'Login failed');
+        setError(errorMessage);
         setLoading(false);
       }
     }
@@ -146,15 +144,15 @@ const LoginPage = () => {
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center text-white/60">
-            <span>Don't have an account? </span>
-            <a
+            <span>Don&apos;t have an account? </span>
+            <Link
               href="/signup"
               onClick={handleSignupClick}
               className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium
                 hover:underline decoration-2 underline-offset-4"
             >
               Sign Up
-            </a>
+            </Link>
           </div>
 
           {/* Social Login */}
