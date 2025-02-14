@@ -19,3 +19,16 @@ declare module 'three/examples/jsm/loaders/GLTFLoader' {
         ): void;
     }
 }
+
+declare global {
+  interface Window {
+    // Define specific types instead of any
+    threejs: {
+      renderer: THREE.WebGLRenderer;
+      scene: THREE.Scene;
+      camera: THREE.PerspectiveCamera;
+    };
+  }
+}
+
+export {};

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate --schema=./src/server/prisma/schema.prisma || true",
-    "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && next build",
+    "vercel-build": "eslint . --max-warnings 0 && prisma generate --schema=./src/server/prisma/schema.prisma && next build",
     "dev": "npm run postinstall && next dev",
     "server": "cd src/server && ts-node src/server.ts",
     "dev:server": "cd src/server && nodemon src/server.ts",
