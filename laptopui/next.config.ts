@@ -17,12 +17,19 @@ const nextConfig: NextConfig = {
   webpack: (config: Configuration) => {
     config.module?.rules?.push({
       test: /\.(mp4|webm)$/i,
-      type: 'asset/resource',
-      generator: {
-        filename: 'static/media/[name].[hash][ext]'
-      }
+      use: [{
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next',
+          name: 'static/media/[name].[hash].[ext]',
+        },
+      }],
     });
     return config;
+  },
+  // Add this to handle public assets
+  publicRuntimeConfig: {
+    staticFolder: '/static',
   }
 };
 
