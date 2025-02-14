@@ -60,7 +60,7 @@ export const lenovoProducts: LenovoProduct[] = [
       "/image/legion-bg-3.jpg",
       "/image/lov4.jpeg"
     ],
-    video: "/video/levono.mp4",
+    video: "/videos/levono.mp4",
     price: "$2,999",
     performance: [
       { label: "Gaming", value: "Exceptional" },

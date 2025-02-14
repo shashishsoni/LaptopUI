@@ -75,7 +75,7 @@ export const alienwareLaptops: AlienwareProduct[] = [
       "Cryo-tech"
     ],
     images: ["/image/aln1.jpg", "/image/aln2.jpg", "/image/aln3.jpg", "/image/aln4.webp"],
-    video: "/video/alnvideo.mp4",
+    video: "/videos/alnvideo.mp4",
     price: "$3,999",
     performance: [
       { label: "Gaming Performance", value: "98%" },

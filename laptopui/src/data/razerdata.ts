@@ -85,7 +85,7 @@ export interface RazerProduct {
         "Vapor Chamber"
       ],
       images: ["/image/razer1.webp", "/image/razer2.jpg", "/image/razer3.jpg", "/image/razer4.jpg"],
-      video: "/video/razer.mp4",
+      video: "/videos/razer.mp4",
       price: "$3,499",
       performance: [
         { label: "Gaming Performance", value: "99%" },

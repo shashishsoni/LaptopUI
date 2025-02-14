@@ -15,7 +15,7 @@ export const msiProducts: LenovoProduct[] = [
       "Cooler Boost"
     ],
     images: ["/image/msi.jpg", "/image/msi1.jpg", "/image/msi2.webp", "/image/msi3.png"],
-    video: "/video/msivideo.mp4",
+    video: "/videos/msivideo.mp4",
     price: "$3,799",
     performance: [
       { label: "Gaming", value: "Ultimate" },

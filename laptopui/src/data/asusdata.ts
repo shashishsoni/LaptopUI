@@ -74,7 +74,7 @@ export const asusLaptops: LaptopProduct[] = [
     name: "ROG Strix SCAR 17",
     description: "Experience next-level gaming with our most powerful laptop ever.",
     images: ["/image/asus1.webp", "/image/asus2.jpg", "/image/asus3.jpg", "/image/asus4.png"],
-    video: "/video/asusvideo.mp4",
+    video: "/videos/asusvideo.mp4",
     price: "$2,499",
     specs: [
       {

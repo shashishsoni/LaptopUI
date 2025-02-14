@@ -91,7 +91,7 @@ export const acerProducts: AcerProduct[] = [
       "/image/p3.jpg",
       "/image/p4.jpg",
     ],
-    video: "/video/Predator.mp4",
+    video: "/videos/Predator.mp4",
     specs: [
       "Intel® Core™ Ultra 9 275HX Processor",
       "NVIDIA® GeForce RTX™ 5090 Laptop GPU",

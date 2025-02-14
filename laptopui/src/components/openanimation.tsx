@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import VideoPlayer from './VideoPlayer';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -375,15 +376,10 @@ export default function LaptopAnimationPage() {
       >
         {/* Video Background */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute w-full h-full object-cover"
-          >
-            <source src="/video/Untitled design_2.mp4" type="video/mp4" />
-          </video>
+          <VideoPlayer
+            src="/videos/Untitled design_2.mp4"
+            className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+          />
           {/* Overlay for better text readability */}
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
         </div>
@@ -398,15 +394,10 @@ export default function LaptopAnimationPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             {/* Main Feature Video */}
             <div className="relative h-[400px] rounded-2xl overflow-hidden group">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
+              <VideoPlayer
+                src="/videos/Untitled design_2.mp4"
                 className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-              >
-                <source src="/video/Untitled design_2.mp4" type="video/mp4" />
-              </video>
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                 <h3 className="text-2xl font-bold text-cyan-400 mb-2">Ultimate Performance</h3>
@@ -420,15 +411,10 @@ export default function LaptopAnimationPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Video Card 1 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <VideoPlayer
+                  src="/videos/keyboard.mp4"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                >
-                  <source src="/video/keyboard.mp4" type="video/mp4" />
-                </video>
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold text-purple-500">RGB Keyboard</h3>
@@ -437,15 +423,10 @@ export default function LaptopAnimationPage() {
 
               {/* Video Card 2 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <VideoPlayer
+                  src="/videos/cooling.mp4"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                >
-                  <source src="/video/cooling.mp4" type="video/mp4" />
-                </video>
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold text-pink-600">Advanced Cooling</h3>
@@ -454,15 +435,10 @@ export default function LaptopAnimationPage() {
 
               {/* Video Card 3 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <VideoPlayer
+                  src="/videos/display.mp4"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                >
-                  <source src="/video/display.mp4" type="video/mp4" />
-                </video>
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold text-cyan-400">4K Display</h3>
@@ -471,15 +447,10 @@ export default function LaptopAnimationPage() {
 
               {/* Video Card 4 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <VideoPlayer
+                  src="/videos/performance.mp4"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                >
-                  <source src="/video/performance.mp4" type="video/mp4" />
-                </video>
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold text-purple-500">RTX Performance</h3>
