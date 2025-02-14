@@ -13,6 +13,7 @@ import AcerPredatorPage from "../pages/AcerPredatorPage";
 import Footer from "../components/footer";
 import { useRouter } from 'next/router';
 import ErrorBoundary from '../components/ErrorBoundary';
+import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -35,6 +36,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ErrorBoundary>
+        <Head>
+          <title>LaptopUI</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
           <Navbar />
           {isAuthPage ? (

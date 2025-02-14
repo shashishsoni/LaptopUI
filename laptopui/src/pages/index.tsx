@@ -4,6 +4,7 @@ import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import gsap from 'gsap';
+import Head from 'next/head';
 
 export default function Home() {
   const leftContainerRef = useRef<HTMLDivElement>(null);
@@ -228,56 +229,61 @@ export default function Home() {
   }, [isDragging]);
 
   return (
-    <main className="relative w-full h-screen overflow-hidden">
-      <div className="absolute inset-0 flex">
-        <div
-          ref={leftContainerRef}
-          className="w-1/2 h-full bg-gradient-to-br from-blue-900 via-blue-800 to-black"
-        ></div>
-        {/* Middle Line with Glow Effect */}
-        <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-1 h-[80vh] bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 opacity-75 animate-glow"
-        />
-        <div
-          ref={rightContainerRef}
-          className="w-1/2 h-full bg-gradient-to-bl from-purple-900 via-purple-800 to-black"
-        ></div>
-      </div>
-      {/* Main Heading */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20">
-        <h1 className="text-6xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-          Premium Gaming Laptops
-        </h1>
-        <p className="text-xl text-gray-300">Unleash Ultimate Gaming Performance</p>
-      </div>
-      {/* Buy Now Buttons */}
-      <div className="absolute bottom-20 w-full flex justify-around z-20">
-        <button 
-          className="group relative px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300"
-          onClick={() => window.location.href = '/configure/1'}
-        >
-          <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <span className="relative flex items-center space-x-2 text-white font-semibold">
-            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>Configure ROG Strix</span>
-          </span>
-        </button>
+    <>
+      <Head>
+        <title>LaptopUI - Home</title>
+      </Head>
+      <main className="relative w-full h-screen overflow-hidden">
+        <div className="absolute inset-0 flex">
+          <div
+            ref={leftContainerRef}
+            className="w-1/2 h-full bg-gradient-to-br from-blue-900 via-blue-800 to-black"
+          ></div>
+          {/* Middle Line with Glow Effect */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-1 h-[80vh] bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 opacity-75 animate-glow"
+          />
+          <div
+            ref={rightContainerRef}
+            className="w-1/2 h-full bg-gradient-to-bl from-purple-900 via-purple-800 to-black"
+          ></div>
+        </div>
+        {/* Main Heading */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20">
+          <h1 className="text-6xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            Premium Gaming Laptops
+          </h1>
+          <p className="text-xl text-gray-300">Unleash Ultimate Gaming Performance</p>
+        </div>
+        {/* Buy Now Buttons */}
+        <div className="absolute bottom-20 w-full flex justify-around z-20">
+          <button 
+            className="group relative px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300"
+            onClick={() => window.location.href = '/configure/1'}
+          >
+            <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative flex items-center space-x-2 text-white font-semibold">
+              <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Configure ROG Strix</span>
+            </span>
+          </button>
 
-        <button 
-          className="group relative px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300"
-          onClick={() => window.location.href = '/configure/8'}
-        >
-          <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <span className="relative flex items-center space-x-2 text-white font-semibold">
-            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>Configure Alienware</span>
-          </span>
-        </button>
-      </div>
-    </main>
+          <button 
+            className="group relative px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300"
+            onClick={() => window.location.href = '/configure/8'}
+          >
+            <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative flex items-center space-x-2 text-white font-semibold">
+              <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Configure Alienware</span>
+            </span>
+          </button>
+        </div>
+      </main>
+    </>
   );
 }
