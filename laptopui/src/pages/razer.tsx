@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { RazerProduct, razerProducts } from '../data/razerdata';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -10,13 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const RazerPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeLaptop, setActiveLaptop] = useState(0);
   
   // Reference the same structure as Alienware page
   const containerRef = useRef<HTMLDivElement>(null);
-  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
+
 
   // Animation effect similar to Alienware
   useEffect(() => {
@@ -36,6 +35,7 @@ const RazerPage = () => {
     };
   }, []);
 
+
   return (
     <div className="overflow-hidden">
       <div ref={containerRef} className="w-screen h-screen">
@@ -51,10 +51,10 @@ const RazerPage = () => {
                   <span className="text-white/60">Elite Gaming</span>
                 </div>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
-                  {razerProducts[activeLaptop].name}
+                  {razerProducts[0].name}
                 </h1>
                 <p className="mb-5 text-sm text-white/60 max-w-2xl">
-                  {razerProducts[activeLaptop].description}
+                  {razerProducts[0].description}
                 </p>
               </div>
 
@@ -65,10 +65,10 @@ const RazerPage = () => {
                   {/* Main Card */}
                   <div className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-28.8rem)] rounded-2xl overflow-hidden">
                     <MainCard 
-                      product={razerProducts[activeLaptop]} 
+                      product={razerProducts[0]} 
                       activeIndex={activeIndex}
-                      category={razerProducts[activeLaptop].category}
-                      price={razerProducts[activeLaptop].price}
+                      category={razerProducts[0].category}
+                      price={razerProducts[0].price}
                     />
                   </div>
                   
@@ -78,7 +78,7 @@ const RazerPage = () => {
                       <div key={index} className="relative h-56" onClick={() => setActiveIndex(index)}>
                         <SideCard
                           index={index}
-                          image={razerProducts[activeLaptop].images[index]}
+                          image={razerProducts[0].images[index]}
                           onClick={() => setActiveIndex(index)}
                         />
                       </div>
@@ -94,11 +94,11 @@ const RazerPage = () => {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-base font-semibold text-white">Features</h3>
                       <span className="px-2 py-1 rounded-full bg-white/5 text-white/60 text-xs">
-                        {razerProducts[activeLaptop].category}
+                        {razerProducts[0].category}
                       </span>
                     </div>
                     <div className="space-y-4 pr-2">
-                      {razerProducts[activeLaptop].features.map((feature, idx) => (
+                      {razerProducts[0].features.map((feature, idx) => (
                         <div key={idx} className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] 
                           transition-colors group border border-white/[0.05] hover:border-white/[0.1]">
                           <div className="flex items-center gap-3 mb-2">
@@ -119,7 +119,7 @@ const RazerPage = () => {
                     <div className="mt-6">
                       <h3 className="text-base font-semibold text-white mb-4">Performance</h3>
                       <div className="space-y-4">
-                        {razerProducts[activeLaptop].performance.map((stat, idx) => (
+                        {razerProducts[0].performance.map((stat, idx) => (
                           <div key={idx} className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span className="text-white/60">{stat.label}</span>
@@ -147,12 +147,12 @@ const RazerPage = () => {
 };
 
 // MainCard Component
-const MainCard = React.memo(({ product, activeIndex, category, price }: { 
-  product: RazerProduct; 
+const MainCard: React.FC<{
+  product: RazerProduct;
   activeIndex: number;
   category: string;
   price: string;
-}) => {
+}> = ({ product, activeIndex, category, price }) => {
   const mainCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -187,9 +187,11 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
             src={product.video}
           />
         ) : (
-          <img
+          <Image
             src={product.images[activeIndex]}
             alt={product.name}
+            width={400}
+            height={300}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
@@ -256,7 +258,8 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       </div>
     </div>
   );
-});
+};
+MainCard.displayName = 'MainCard';
 
 // SideCard Component
 const SideCard = React.memo(({ index, image, onClick }: { index: number; image: string; onClick: () => void }) => (
@@ -266,10 +269,12 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
   >
     <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-emerald-900/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
-    <img
+    <Image
       src={image}
       alt={`View ${index}`}
-      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      width={400}
+      height={300}
+      className="w-full h-full object-cover"
     />
     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 
       transition-colors duration-300 flex items-center justify-center">
@@ -279,5 +284,6 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
     </div>
   </div>
 ));
+SideCard.displayName = 'SideCard';
 
 export default RazerPage;

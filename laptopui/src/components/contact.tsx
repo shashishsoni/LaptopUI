@@ -115,7 +115,7 @@ const ContactPage = () => {
                   Get in Touch
                 </motion.h1>
                 <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                  Have questions about our gaming laptops? We're here to help you find the perfect gaming setup.
+                  Have questions about our gaming laptops? We&apos;re here to help you find the perfect gaming setup.
                 </p>
               </div>
 

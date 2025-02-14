@@ -23,10 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({
       clientSecret: paymentIntent.client_secret,
     });
-  } catch (error: any) {
-    console.error('Error creating payment intent:', error);
-    res.status(500).json({
-      message: error.message,
-    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ message });
   }
 } 

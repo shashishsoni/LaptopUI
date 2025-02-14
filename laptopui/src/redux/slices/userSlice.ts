@@ -27,8 +27,8 @@ interface UserState {
   profile: UserProfile | null;
   token: string | null;
   isAuthenticated: boolean;
-  cart: any[];
-  orders: any[];
+  cart: CartItem[];
+  orders: Order[];
 }
 
 const initialState: UserState = {
@@ -55,12 +55,11 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<{ user: any; token: string }>) => {
+    setUser: (state, action: PayloadAction<{ user: UserProfile; token: string }>) => {
       state.profile = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
       
-      // Update localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('userData', JSON.stringify(action.payload.user));

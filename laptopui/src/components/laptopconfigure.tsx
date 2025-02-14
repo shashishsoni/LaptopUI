@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { LaptopProduct } from '../data/asusdata';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface ConfigOption {
   id: string;
@@ -270,9 +271,10 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
         }
       });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to proceed to checkout';
       console.error('Checkout error:', error);
-      alert(error.message || 'Failed to proceed to checkout. Please try again.');
+      alert(errorMessage);
     }
   };
 
@@ -315,9 +317,11 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
             src={laptop.video}
           />
         ) : (
-          <img
+          <Image
             src={laptop.images[0]}
             alt={laptop.name}
+            width={1280}
+            height={720}
             className="w-full h-full object-cover transition-transform duration-700 
               group-hover:scale-105"
           />
@@ -358,9 +362,11 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
               className="w-16 h-16 rounded-lg overflow-hidden border-2 border-white/20 
                 hover:border-cyan-400 transition-colors cursor-pointer"
             >
-              <img
+              <Image
                 src={image}
                 alt={`${laptop.name} view ${index + 1}`}
+                width={64}
+                height={64}
                 className="w-full h-full object-cover"
               />
             </div>

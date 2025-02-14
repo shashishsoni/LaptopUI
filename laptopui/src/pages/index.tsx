@@ -62,7 +62,6 @@ export default function Home() {
       url: string,
       scene: THREE.Scene,
       isLeft: boolean,
-      modelName: string
     ) => {
       loader.load(
         url,
@@ -138,7 +137,6 @@ export default function Home() {
               mesh.visible = false;
               textGroup.add(mesh);
               
-              const moveDistance = 1;
               const duration = 2;
               
               timeline
@@ -175,8 +173,8 @@ export default function Home() {
       );
     };
 
-    loadModel('/models/asus_rog_strix_scar_17_2023_g733_gaming_laptop.glb', leftScene.scene, true, 'ASUS ROG Strix SCAR 17');
-    loadModel('/models/alienware_m18_gaming_laptop.glb', rightScene.scene, false, 'Alienware m18');
+    loadModel('/models/asus_rog_strix_scar_17_2023_g733_gaming_laptop.glb', leftScene.scene, true);
+    loadModel('/models/alienware_m18_gaming_laptop.glb', rightScene.scene, false);
 
     // Mouse interaction
     const handleMouseMove = (e: MouseEvent) => {

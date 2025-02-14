@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { authApi } from '../server/services/api';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 const SignupPage = () => {
-  const router = useRouter();
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -41,9 +40,9 @@ const SignupPage = () => {
       setTimeout(() => {
         window.location.href = '/login';
       }, 100);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (isMounted.current) {
-        setError(err.response?.data?.message || 'Signup failed');
+        setError(err instanceof Error ? err.message : 'Signup failed');
         setLoading(false);
       }
     }
@@ -62,10 +61,6 @@ const SignupPage = () => {
     { name: 'Discord', icon: '💬', color: 'from-indigo-500 to-purple-500' }
   ];
 
-  const handleLoginClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.location.href = '/login';
-  };
 
   return (
     <>
@@ -252,14 +247,9 @@ const SignupPage = () => {
               className="mt-4 text-center text-white/60 text-sm"
             >
               <span>Already have an account? </span>
-              <a
-                href="/login"
-                onClick={handleLoginClick}
-                className="text-purple-400 hover:text-purple-300 transition-colors font-medium
-                  hover:underline decoration-2 underline-offset-4"
-              >
+              <Link href="/login" className="text-purple-400 hover:text-purple-300">
                 Login
-              </a>
+              </Link>
             </motion.div>
           </div>
         </motion.div>

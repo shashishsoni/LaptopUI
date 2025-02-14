@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { LenovoProduct } from '../data/lenovodata';
 import { msiProducts } from '../data/msidata';
 
 const MSIPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeLaptop, setActiveLaptop] = useState(0);
+  const [activeLaptop] = useState(0);
   const titleRef = useRef<HTMLDivElement>(null);
   const mainCardRef = useRef<HTMLDivElement>(null);
   const sideCardsRef = useRef<HTMLDivElement>(null);
@@ -73,7 +74,7 @@ const MSIPage = () => {
             {msiProducts[activeLaptop].name}
           </h1>
           <p className="mb-5 text-sm text-white/60 max-w-2xl">
-            Unleash the dragon within with MSI's cutting-edge gaming technology
+            Unleash the dragon within with MSI&apos;s cutting-edge gaming technology
           </p>
         </div>
 
@@ -193,9 +194,11 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
             src={product.video}
           />
         ) : (
-          <img
+          <Image
             src={product.images[activeIndex]}
             alt={product.name}
+            width={400}
+            height={300}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
@@ -259,6 +262,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
     </div>
   );
 });
+MainCard.displayName = 'MainCard';
 
 const SideCard = React.memo(({ index, image, onClick }: { index: number; image: string; onClick: () => void }) => (
   <div 
@@ -267,10 +271,12 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
   >
     <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-500/20 opacity-0 
       group-hover:opacity-100 transition-opacity duration-300 z-10" />
-    <img
+    <Image
       src={image}
       alt={`View ${index}`}
-      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 bg-cover"
+      width={400}
+      height={300}
+      className="w-full h-full object-cover"
     />
     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 
       transition-colors duration-300 flex items-center justify-center">
@@ -281,6 +287,8 @@ const SideCard = React.memo(({ index, image, onClick }: { index: number; image: 
     </div>
   </div>
 ));
+SideCard.displayName = 'SideCard';
+
 
 const SpecBadge = React.memo(({ spec }: { spec: string }) => (
   <div className="group hover-card-effect bg-black/60 backdrop-blur-xl rounded-xl p-4 border border-white/20 
@@ -299,5 +307,6 @@ const SpecBadge = React.memo(({ spec }: { spec: string }) => (
     </div>
   </div>
 ));
+SpecBadge.displayName = 'SpecBadge';
 
 export default MSIPage;

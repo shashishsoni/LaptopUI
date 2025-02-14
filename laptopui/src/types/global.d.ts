@@ -1,13 +1,13 @@
 // src/types/global.d.ts
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Group, Scene, Camera } from 'three';
+import type { GLTF as GLTFType } from 'three/examples/jsm/loaders/GLTFLoader';
+import type * as THREE from 'three';
 
 declare module 'three/examples/jsm/loaders/GLTFLoader' {
-    export interface GLTF {
-        scene: Group;
-        scenes: Group[];
+    export interface GLTF extends GLTFType {
+        scene: THREE.Group;
+        scenes: THREE.Group[];
         animations: THREE.AnimationClip[];
-        cameras: Camera[];
+        cameras: THREE.Camera[];
         asset: {
             version: string;
             generator: string;
@@ -34,6 +34,74 @@ declare global {
       camera: THREE.PerspectiveCamera;
     };
   }
+}
+
+export interface LaptopProduct {
+  id: number;
+  brand: string;
+  name: string;
+  category: string;
+  description: string;
+  specs: {
+    title: string;
+    value: string;
+    icon: string;
+  }[];
+  images: string[];
+  video: string;
+  price: string;
+  configurations: {
+    processor: {
+      name: string;
+      required: boolean;
+      options: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }>;
+    };
+    graphics: {
+      name: string;
+      required: boolean;
+      options: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }>;
+    };
+    memory: {
+      name: string;
+      required: boolean;
+      options: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }>;
+    };
+    storage: {
+      name: string;
+      required: boolean;
+      options: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }>;
+    };
+    display: {
+      name: string;
+      required: boolean;
+      options: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+      }>;
+    };
+  };
 }
 
 export {};

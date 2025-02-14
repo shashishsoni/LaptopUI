@@ -11,7 +11,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/navbar';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -107,7 +106,6 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
 };
 
 const ProductPage = () => {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
