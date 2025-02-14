@@ -9,7 +9,7 @@ import type { AcerProduct } from '../data/AcerData';
 import { razerProducts } from '../data/razerdata';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '../components/navbar';
+import Navbar from '../components/Navbar';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
