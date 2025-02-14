@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.env*
+*.log
+.DS_Store
+dist
+build
+npm-debug.log*
+.npm
+.cache
+coverage
+.nyc_output
+.dockerignore
+Dockerfile*
+docker-compose*
+README.md 

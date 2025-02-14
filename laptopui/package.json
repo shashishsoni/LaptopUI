@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "node -e \"const fs=require('fs'); const path=require('path'); const enginePath=path.join(process.cwd(), 'node_modules', '.prisma', 'client', 'query_engine-windows.dll.node'); const destPath=path.join(process.cwd(), '.next', 'server', 'query_engine-windows.dll.node'); if(fs.existsSync(enginePath)){fs.mkdirSync(path.dirname(destPath), {recursive:true}); fs.copyFileSync(enginePath, destPath);}\"",
-    "vercel-build": "prisma generate && prisma db push && next build",
+    "postinstall": "prisma generate --schema=./src/server/prisma/schema.prisma && node scripts/copy-engine.js",
+    "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && prisma db push --schema=./src/server/prisma/schema.prisma && next build",
     "dev": "npm run postinstall && next dev",
     "server": "cd src/server && ts-node src/server.ts",
     "dev:server": "cd src/server && nodemon src/server.ts",
@@ -12,8 +12,8 @@
     "build": "npm run postinstall && next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push"
+    "prisma:generate": "prisma generate --schema=./src/server/prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=./src/server/prisma/schema.prisma"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

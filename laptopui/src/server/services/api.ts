@@ -65,35 +65,30 @@ api.interceptors.response.use(
 );
 
 export const authApi = {
-  login: async (data: { email: string; password: string }) => {
+  login: async (credentials: { email: string; password: string }) => {
     try {
-      console.log('📝 Login attempt with:', { email: data.email });
-      const response = await api.post('/auth/login', data);
-      console.log('✅ Login successful');
+      const response = await api.post<AuthResponse>('/auth/login', credentials);
       return response.data;
     } catch (error: any) {
-      console.error('❌ Login error:', error);
-      
-      if (error.response) {
-        // Server responded with error
-        throw new Error(error.response.data.message || 'Login failed');
+      if (error.response?.status === 401) {
+        throw new Error('Invalid email or password');
       }
-      
-      if (error.code === 'ECONNABORTED') {
-        throw new Error('Request timed out. Please try again.');
-      }
-      
-      if (!navigator.onLine) {
-        throw new Error('No internet connection. Please check your network.');
-      }
-      
-      throw new Error('Unable to connect to server. Please try again later.');
+      throw new Error(error.response?.data?.message || 'Login failed');
     }
   },
+
   signup: async (data: { email: string; password: string; fullName: string }) => {
-    const response = await api.post<AuthResponse>('/auth/signup', data);
-    return response.data;
+    try {
+      const response = await api.post('/auth/signup', data);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        throw new Error('Email already exists');
+      }
+      throw new Error(error.response?.data?.message || 'Signup failed');
+    }
   },
+
   getCart: async () => {
     try {
       const response = await api.get<CartItem[]>('/user/cart');
@@ -103,6 +98,7 @@ export const authApi = {
       return [];
     }
   },
+
   getOrders: async () => {
     try {
       const response = await api.get<Order[]>('/user/orders');
