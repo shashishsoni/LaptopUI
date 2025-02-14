@@ -4,6 +4,7 @@ import type { AcerProduct } from '../data/AcerData';
 import { acerProducts } from '../data/AcerData';
 import Link from 'next/link';
 import Image from 'next/image';
+import VideoPlayer from '../components/VideoPlayer';
 
 const DetailedSpecsSection = React.memo(({ specs }: { specs: AcerProduct['detailedSpecs'] }) => (
   <div className="mt-8 relative">
@@ -172,13 +173,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       
       {/* Media Content */}
       {activeIndex === 0 && product.video ? (
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
+        <VideoPlayer
           src={product.video}
+          className="w-full h-full object-cover"
         />
       ) : (
         <Image

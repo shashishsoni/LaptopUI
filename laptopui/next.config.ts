@@ -14,16 +14,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Configure static file serving
-  async rewrites() {
-    return [
-      {
-        source: '/video/:path*',
-        destination: '/public/video/:path*'
-      }
-    ];
-  },
-  // Configure headers for video streaming
+  // Configure video handling
   async headers() {
     return [
       {
@@ -36,9 +27,22 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Type',
             value: 'video/mp4'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           }
         ],
-      },
+      }
+    ];
+  },
+  // Serve videos from public directory
+  async rewrites() {
+    return [
+      {
+        source: '/video/:file*',
+        destination: '/video/:file*'
+      }
     ];
   },
   // Update webpack config

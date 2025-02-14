@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { LenovoProduct } from '../data/lenovodata';
 import { msiProducts } from '../data/msidata';
+import VideoPlayer from '../components/VideoPlayer';
 
 const MSIPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -185,13 +186,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       
       <div className="relative h-full rounded-2xl overflow-hidden">
         {activeIndex === 0 && product.video ? (
-          <video
-            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-            autoPlay
-            loop
-            muted
-            playsInline
+          <VideoPlayer
             src={product.video}
+            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <Image

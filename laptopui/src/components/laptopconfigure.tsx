@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { LaptopProduct } from '../data/asusdata';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import VideoPlayer from './VideoPlayer';
 
 interface ConfigOption {
   id: string;
@@ -307,14 +308,10 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
       <div className="relative h-[70vh] rounded-2xl overflow-hidden group 
         shadow-2xl shadow-purple-500/10 border border-white/10">
         {laptop.video ? (
-          <video
+          <VideoPlayer
+            src={laptop.video}
             className="w-full h-full object-cover transition-transform duration-700 
               group-hover:scale-105"
-            autoPlay
-            loop
-            muted
-            playsInline
-            src={laptop.video}
           />
         ) : (
           <Image

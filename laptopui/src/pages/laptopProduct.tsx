@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import type { LaptopProduct } from '../data/asusdata';
 import { asusLaptops } from '../data/asusdata';
 import Image from 'next/image';
+import VideoPlayer from '../components/VideoPlayer';
 
 const LaptopProduct = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -153,13 +154,9 @@ const LaptopProduct = () => {
                       // Main card content
                       <div className="relative w-full h-full">
                         {activeIndex === 0 ? (
-                          <video
-                            className="absolute inset-0 w-full h-full object-cover"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
+                          <VideoPlayer
                             src={asusLaptops[activeLaptop].video}
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
                         ) : (
                           <Image

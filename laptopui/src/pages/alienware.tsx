@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { AlienwareProduct, alienwareLaptops } from '../data/alienwaresdata';
 import Link from 'next/link';
 import Image from 'next/image';
+import VideoPlayer from '../components/VideoPlayer';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -217,13 +218,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       {/* Media Container */}
       <div className="relative h-full rounded-2xl overflow-hidden">
         {activeIndex === 0 && product.video ? (
-          <video
-            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-            autoPlay
-            loop
-            muted
-            playsInline
+          <VideoPlayer
             src={product.video}
+            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <Image
