@@ -9,7 +9,8 @@ export const generateToken = (userId: string) => {
 export const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET) as { userId: string; exp: number };
-  } catch (error) {
+  } catch (err) {
+    console.error('Auth error:', err);
     return null;
   }
 };
@@ -21,7 +22,8 @@ export const isTokenExpired = (token: string): boolean => {
     
     const currentTime = Math.floor(Date.now() / 1000);
     return decoded.exp < currentTime;
-  } catch {
+  } catch (err) {
+    console.error('Auth error:', err);
     return true;
   }
 }; 

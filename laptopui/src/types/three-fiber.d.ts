@@ -15,10 +15,15 @@ declare global {
 
 declare module '@react-three/fiber' {
   interface ThreeElements {
-    mesh: THREE.Mesh;
-    primitive: { object: THREE.Object3D } & JSX.IntrinsicElements['primitive'];
-    pointLight: THREE.PointLight;
-    ambientLight: THREE.AmbientLight;
-    group: THREE.Group;
+    mesh: JSX.IntrinsicElements['mesh'] & {
+      geometry: THREE.BufferGeometry;
+      material: THREE.Material | THREE.Material[];
+    };
+    primitive: JSX.IntrinsicElements['primitive'] & {
+      object: THREE.Object3D;
+    };
+    group: JSX.IntrinsicElements['group'] & {
+      children: React.ReactNode;
+    };
   }
-} 
+}

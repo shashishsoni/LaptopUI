@@ -171,7 +171,7 @@ export default function Home() {
           });
         },
         undefined,
-        (error: ErrorEvent) => console.error('Model load error:', error)
+        (error: unknown) => console.error('Model load error:', error)
       );
     };
 
