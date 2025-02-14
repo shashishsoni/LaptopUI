@@ -4,6 +4,9 @@ try {
   console.log('Installing frontend dependencies...');
   execSync('npm install', { stdio: 'inherit' });
 
+  console.log('Generating Prisma Client...');
+  execSync('npx prisma generate --schema=./src/server/prisma/schema.prisma', { stdio: 'inherit' });
+
   console.log('Building frontend...');
   execSync('npm run build', { stdio: 'inherit' });
 
