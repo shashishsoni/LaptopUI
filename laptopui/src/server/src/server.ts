@@ -3,7 +3,6 @@ import cors from 'cors';
 import { connectDB } from './config/database';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
-import { corsOptions } from './config/cors';
 // import laptopRoutes from './routes/laptops';
 
 // Load environment variables

@@ -70,8 +70,7 @@ export const login = async (data: LoginData) => {
       },
       token
     };
-  } catch (error: any) {
-    console.error('Login error:', error);
-    throw new Error(error.message || 'Login failed');
+  } catch (error: unknown) {
+    throw error instanceof Error ? error : new Error('Unknown error occurred');
   }
 }; 
