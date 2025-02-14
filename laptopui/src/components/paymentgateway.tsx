@@ -10,7 +10,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import Head from 'next/head';
-import Navbar from '../components/navbar';
+import Navbar from "../components/navbar";
 
 // Replace with your Stripe publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
