@@ -4,6 +4,9 @@ import Navbar from '../components/navbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../redux/store';
+import type { Order } from '../types/orders';
 
 interface OrderConfig {
   name: string;
@@ -20,25 +23,13 @@ interface OrderItem {
   price: number;
 }
 
-interface Order {
-  id: string;
-  orderId: string;
-  items: OrderItem[];
-  total: number;
-  status: 'PROCESSING' | 'SHIPPED' | 'DELIVERED';
-  createdAt: string;
-  estimatedDelivery: string;
-  user: {
-    email: string;
-    fullName: string;
-  };
-}
-
 export default function OrdersPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { profile: user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     setMounted(true);
@@ -47,34 +38,30 @@ export default function OrdersPage() {
 
     const fetchOrders = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const token = localStorage.getItem('token');
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
         
-        if (!token || !userData.id) {
+        if (!token || !user?.id) {
           router.push('/login');
           return;
         }
 
-        const response = await fetch(`/api/orders/${userData.id}`, {
+        const response = await fetch(`/api/orders/${user.id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
 
         if (!response.ok) {
-          if (response.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userData');
-            router.push('/login');
-            return;
-          }
-          throw new Error('Failed to fetch orders');
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
         setOrders(data);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch orders');
       } finally {
         setLoading(false);
       }
@@ -86,7 +73,7 @@ export default function OrdersPage() {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     };
-  }, [router]);
+  }, [router, user?.id]);
 
   if (!mounted) return null;
 

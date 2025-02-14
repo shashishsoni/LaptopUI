@@ -49,7 +49,7 @@ const SphereContainer = () => {
   const socialLinks = [
     { icon: "👾", label: "GitHub", link: "https://github.com/shashishsoni" },
     { icon: "💼", label: "LinkedIn", link: "https://www.linkedin.com/in/shashishsoni/" },
-    { icon: "📧", label: "Email", link: "shshshsoni2003@gmail.com" },
+    { icon: "📧", label: "Email", link: "mailto:shshshsoni2003@gmail.com" },
     { icon: "🐦", label: "Twitter", link: "https://twitter.com/shashishsoni" },
     { icon: "📸", label: "Instagram", link: "https://www.instagram.com/_shashish_soni_/" },
     { icon: "🎮", label: "Discord", link: "https://discord.com/users/696428315728150578" },

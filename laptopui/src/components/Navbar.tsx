@@ -94,6 +94,27 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' }
   ];
 
+  const handleAuthClick = (e: React.MouseEvent, path: string) => {
+    e.preventDefault();
+    if (router.pathname === path) {
+      window.location.reload();
+    } else {
+      window.location.href = path;
+    }
+  };
+
+  const handleLogout = () => {
+    // First dispatch logout action
+    dispatch(logout());
+    
+    // Clear local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    
+    // Redirect to home page with a full page refresh
+    window.location.href = '/';
+  };
+
   if (!isMounted) {
     return null; // or a loading skeleton
   }
@@ -225,10 +246,7 @@ const Navbar = () => {
                           {/* Logout Button */}
                           <div className="px-2 pt-2 border-t border-white/10">
                             <button
-                              onClick={() => {
-                                dispatch(logout());
-                                router.push('/login');
-                              }}
+                              onClick={handleLogout}
                               className="w-full p-2 text-sm text-red-400 hover:text-red-300 
                                 hover:bg-white/5 rounded-lg transition-all duration-300 text-left
                                 flex items-center space-x-3 group"
@@ -252,28 +270,19 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4 ml-6">
                   <Link
                     href="/login"
-                    className="px-4 py-2 text-sm font-medium text-white/90 hover:text-white 
-                      bg-white/5 hover:bg-white/10 rounded-xl transition-all duration-300
-                      border border-white/10 hover:border-white/20 hover:scale-105"
+                    onClick={(e) => handleAuthClick(e, '/login')}
+                    className="text-white/70 hover:text-white transition-colors px-4 py-2 rounded-lg
+                      hover:bg-white/5"
                   >
                     Login
                   </Link>
                   <Link
                     href="/signup"
-                    className="relative group px-4 py-2 text-sm font-medium"
+                    onClick={(e) => handleAuthClick(e, '/signup')}
+                    className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2
+                      rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl 
-                      opacity-75 group-hover:opacity-100 blur-lg transition-opacity duration-300" />
-                    <span className="relative z-10 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl
-                      text-white group-hover:from-blue-600 group-hover:to-cyan-600 transition-all duration-300
-                      flex items-center space-x-2 transform group-hover:scale-[1.02]">
-                      <span>Sign up</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" 
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                          d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
+                    Sign Up
                   </Link>
                 </div>
               )}
