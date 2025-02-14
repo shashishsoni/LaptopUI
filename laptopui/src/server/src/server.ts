@@ -19,7 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 // Health check route
-app.get('/health', (req, res) => {
+app.get('/health', (_, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 

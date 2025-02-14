@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { store } from '../../redux/store';
 
 interface CartItem {
@@ -49,7 +49,7 @@ const api = axios.create({
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
-  (config) => {
+  (config: AxiosRequestConfig) => {
     console.log(`🚀 Making ${config.method?.toUpperCase()} request to ${config.url}`);
     const token = store.getState().user.token;
     if (token && config.headers) {
@@ -57,7 +57,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  (error: AxiosError) => {
     console.error('❌ Request error:', error);
     return Promise.reject(error);
   }
@@ -65,11 +65,11 @@ api.interceptors.request.use(
 
 // Add response interceptor for debugging
 api.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     console.log('✅ Response received:', response.status);
     return response;
   },
-  (error) => {
+  (error: AxiosError) => {
     console.error('❌ Response error:', error);
     return Promise.reject(error);
   }
