@@ -25,6 +25,12 @@ interface AuthResponse {
   token: string;
 }
 
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message?: string;
+}
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
@@ -108,4 +114,15 @@ export const authApi = {
       return [];
     }
   }
-}; 
+};
+
+export const handleResponse = <T>(data: T): ApiResponse<T> => ({
+  data,
+  status: 200
+});
+
+export const handleError = (error: Error): ApiResponse<null> => ({
+  data: null,
+  status: 400,
+  message: error.message
+}); 

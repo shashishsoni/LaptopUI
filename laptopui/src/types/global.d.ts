@@ -1,13 +1,18 @@
 // src/types/global.d.ts
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { Group, Scene, Camera } from 'three';
+
 declare module 'three/examples/jsm/loaders/GLTFLoader' {
-    import { Loader, Group } from 'three';
-    
     export interface GLTF {
         scene: Group;
         scenes: Group[];
-        animations: any[];
-        cameras: any[];
-        asset: any;
+        animations: THREE.AnimationClip[];
+        cameras: Camera[];
+        asset: {
+            version: string;
+            generator: string;
+            copyright?: string;
+        };
     }
 
     export class GLTFLoader extends Loader {
