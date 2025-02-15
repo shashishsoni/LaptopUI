@@ -4,7 +4,7 @@ import { connectDB } from './config/database';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 // import laptopRoutes from './routes/laptops';
-import { corsOptions } from './config/cors';
+// import { corsOptions } from './config/cors';  
 
 // Load environment variables
 dotenv.config();
