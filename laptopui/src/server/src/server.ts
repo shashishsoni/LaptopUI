@@ -11,14 +11,20 @@ dotenv.config();
 
 const app = express();
 
-// Updated CORS configuration
+// Updated CORS configuration for Vercel
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://laptop-ui-phi.vercel.app/'],
+  origin: [
+    'http://localhost:3000',
+    'https://laptop-ui-phi.vercel.app',
+    'https://laptopui.vercel.app'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  exposedHeaders: ['Set-Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Parse JSON bodies
 app.use(express.json());
