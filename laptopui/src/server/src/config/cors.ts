@@ -1,8 +1,12 @@
 export const corsOptions = {
-  origin: true, // Allow all origins for now
+  origin: [
+    'https://laptop-ui-phi.vercel.app/',
+    'http://localhost:3000',
+    'http://localhost:5000'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: false, // Change this to false for now
+  credentials: true,
   preflightContinue: false,
   optionsSuccessStatus: 204
 };

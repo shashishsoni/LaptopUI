@@ -36,14 +36,12 @@ interface ApiError {
   code?: string;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json'
   },
-  withCredentials: false // Change this to false for now
+  withCredentials: true
 });
 
 // Simplified request interceptor

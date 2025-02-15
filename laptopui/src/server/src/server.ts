@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 
-// Enable CORS for all routes
+// Enable CORS with specific options
 app.use(cors(corsOptions));
 
 // Handle preflight requests
@@ -70,3 +70,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default app;
