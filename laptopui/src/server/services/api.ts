@@ -37,9 +37,9 @@ interface ApiError {
 }
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: 'http://localhost:5000/api',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
   withCredentials: true
 });

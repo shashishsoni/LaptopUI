@@ -11,11 +11,14 @@ dotenv.config();
 
 const app = express();
 
-// Enable CORS with specific options
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors());
+// Updated CORS configuration
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://laptop-ui-phi.vercel.app/'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Set-Cookie'],
+}));
 
 // Parse JSON bodies
 app.use(express.json());
