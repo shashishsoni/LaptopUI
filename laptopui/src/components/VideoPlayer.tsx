@@ -10,32 +10,8 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleError = (e: Event) => {
-      console.error('Video error:', e);
-      setError('Failed to load video');
-      setIsLoading(false);
-    };
-
-    const handleLoadedData = () => {
-      setIsLoading(false);
-      setError(null);
-    };
-
-    video.addEventListener('error', handleError);
-    video.addEventListener('loadeddata', handleLoadedData);
-
-    return () => {
-      video.removeEventListener('error', handleError);
-      video.removeEventListener('loadeddata', handleLoadedData);
-    };
-  }, []);
-
-  // Ensure video path is absolute
-  const videoSrc = src.startsWith('http') ? src : `${process.env.NEXT_PUBLIC_VERCEL_URL || ''}${src}`;
+  // Simply use the src directly from public folder
+  const videoSrc = `/videos/${src.split('/').pop()}`;
 
   return (
     <div className={`relative ${className || ''}`}>
@@ -52,7 +28,6 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
         loop
         playsInline
         preload="auto"
-        crossOrigin="anonymous"
       >
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
