@@ -10,7 +10,9 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "prisma generate --schema=./src/server/prisma/schema.prisma && next build",
     "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -59,3 +61,5 @@
     "webpack": "^5.97.1"
   }
 }
+
+

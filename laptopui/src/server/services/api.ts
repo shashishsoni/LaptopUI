@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { store } from '../../redux/store';
 
 interface CartItem {
