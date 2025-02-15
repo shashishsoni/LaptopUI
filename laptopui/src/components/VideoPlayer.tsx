@@ -7,6 +7,7 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -16,9 +17,11 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
     const handleError = (e: Event) => {
       console.error('Video error:', e);
       setError('Failed to load video');
+      setIsLoading(false);
     };
 
     const handleLoadedData = () => {
+      setIsLoading(false);
       video.play().catch(err => {
         console.warn('Autoplay failed:', err);
       });
@@ -38,6 +41,11 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
 
   return (
     <div className={`relative ${className}`}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+        </div>
+      )}
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
@@ -48,6 +56,7 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
         preload="auto"
       >
         <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
       {error && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">

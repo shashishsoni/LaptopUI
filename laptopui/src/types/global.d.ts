@@ -105,3 +105,8 @@ export interface LaptopProduct {
 }
 
 export {};
+
+declare module '*.mp4' {
+  const src: string;
+  export default src;
+} 

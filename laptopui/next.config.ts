@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: ['your-image-domain.com'],
-    unoptimized: true
+    unoptimized: true,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   typescript: {
     ignoreBuildErrors: true,
@@ -46,23 +48,40 @@ const nextConfig: NextConfig = {
     ];
   },
   // Update webpack config
-  webpack: (config: Configuration) => {
-    config.module?.rules?.push({
-      test: /\.(mp4|webm)$/i,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          publicPath: '/_next/static/videos',
-          outputPath: 'static/videos',
-          name: '[name].[hash].[ext]',
+  webpack: (config) => {
+    config.module.rules.push(
+      {
+        test: /\.(mp4|webm)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/videos/',
+            outputPath: 'static/videos/',
+            name: '[name].[hash].[ext]',
+          },
         },
-      }],
-    });
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/image/',
+            outputPath: 'static/image/',
+            name: '[name].[hash].[ext]',
+          },
+        },
+      }
+    );
     return config;
   },
   // Add this to handle public assets
   publicRuntimeConfig: {
     staticFolder: '/static',
+  },
+  experimental: {
+    optimizeCss: false,
+    optimizeImages: false,
   }
 };
 

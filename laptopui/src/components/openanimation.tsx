@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import VideoPlayer from './VideoPlayer';
+import videos from '../utils/videoImports';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -377,7 +378,7 @@ export default function LaptopAnimationPage() {
         {/* Video Background */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <VideoPlayer
-            src="/videos/Untitled design_2.mp4"
+            src={videos.asusVideo}
             className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
           />
           {/* Overlay for better text readability */}
@@ -395,7 +396,7 @@ export default function LaptopAnimationPage() {
             {/* Main Feature Video */}
             <div className="relative h-[400px] rounded-2xl overflow-hidden group">
               <VideoPlayer
-                src="/videos/Untitled design_2.mp4"
+                src={videos.asusVideo}
                 className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
