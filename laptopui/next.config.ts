@@ -16,11 +16,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Configure video handling
+  // Configure proper video handling
   async headers() {
     return [
       {
-        source: '/video/:path*',
+        source: '/videos/:path*',
         headers: [
           {
             key: 'Accept-Ranges',
@@ -49,30 +49,13 @@ const nextConfig: NextConfig = {
   },
   // Update webpack config
   webpack: (config) => {
-    config.module.rules.push(
-      {
-        test: /\.(mp4|webm)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            publicPath: '/_next/static/videos/',
-            outputPath: 'static/videos/',
-            name: '[name].[hash].[ext]',
-          },
-        },
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            publicPath: '/_next/static/image/',
-            outputPath: 'static/image/',
-            name: '[name].[hash].[ext]',
-          },
-        },
+    config.module.rules.push({
+      test: /\.(mp4|webm)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/videos/[name].[hash][ext]'
       }
-    );
+    });
     return config;
   },
   // Add this to handle public assets

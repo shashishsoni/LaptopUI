@@ -7,8 +7,7 @@ function copyAssets() {
       source: path.join(process.cwd(), 'public', 'videos'),
       targets: [
         path.join(process.cwd(), '.next', 'static', 'videos'),
-        path.join(process.cwd(), '.next', 'public', 'videos'),
-        path.join(process.cwd(), 'public', 'static', 'videos')
+        path.join(process.cwd(), '.next', 'public', 'videos')
       ]
     },
     images: {
@@ -29,24 +28,23 @@ function copyAssets() {
 
   Object.entries(assets).forEach(([type, { source, targets }]) => {
     if (!fs.existsSync(source)) {
-      console.log(`Creating source ${type} directory...`);
-      fs.mkdirSync(source, { recursive: true });
+      console.log(`Source ${type} directory not found: ${source}`);
       return;
     }
 
     targets.forEach(targetDir => {
       try {
         fs.mkdirSync(targetDir, { recursive: true });
-
+        
         const files = fs.readdirSync(source);
         files.forEach(file => {
-          const sourcePath = path.join(source, file);
-          const targetPath = path.join(targetDir, file);
-          
-          if (fs.existsSync(sourcePath) && fs.statSync(sourcePath).isFile()) {
+          if (file.endsWith('.mp4')) {
+            const sourcePath = path.join(source, file);
+            const targetPath = path.join(targetDir, file);
+            
             try {
               fs.copyFileSync(sourcePath, targetPath);
-              console.log(`Copied ${type}/${file} to ${targetDir}`);
+              console.log(`Copied ${file} to ${targetDir}`);
             } catch (err) {
               console.warn(`Warning: Could not copy ${file}:`, err.message);
             }

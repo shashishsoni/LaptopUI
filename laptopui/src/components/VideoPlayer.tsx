@@ -22,9 +22,7 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
 
     const handleLoadedData = () => {
       setIsLoading(false);
-      video.play().catch(err => {
-        console.warn('Autoplay failed:', err);
-      });
+      setError(null);
     };
 
     video.addEventListener('error', handleError);
@@ -34,16 +32,16 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
       video.removeEventListener('error', handleError);
       video.removeEventListener('loadeddata', handleLoadedData);
     };
-  }, [src]);
+  }, []);
 
-  // Ensure video path starts with /videos/
-  const videoSrc = src.startsWith('/videos/') ? src : `/videos/${src}`;
+  // Ensure video path is absolute
+  const videoSrc = src.startsWith('http') ? src : `${process.env.NEXT_PUBLIC_VERCEL_URL || ''}${src}`;
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className || ''}`}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+          <span className="text-white">Loading...</span>
         </div>
       )}
       <video
@@ -54,6 +52,7 @@ const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
         loop
         playsInline
         preload="auto"
+        crossOrigin="anonymous"
       >
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
