@@ -16,7 +16,8 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'https://laptop-ui-phi.vercel.app',
-    'https://laptopui.vercel.app'
+    'https://laptopui.vercel.app',
+    'https://laptopui.onrender.com'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
