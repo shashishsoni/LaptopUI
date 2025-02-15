@@ -26,25 +26,22 @@ const SignupPage = () => {
     e.preventDefault();
     if (loading) return;
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
+    setError('');
     setLoading(true);
 
     try {
-      await authApi.signup(formData);
-      
-      // Use timeout to ensure state updates complete before navigation
-      setTimeout(() => {
+      const response = await authApi.signup(formData);
+      if (response?.token) {
         window.location.href = '/login';
-      }, 100);
-    } catch (err: unknown) {
-      if (isMounted.current) {
-        setError(err instanceof Error ? err.message : 'Signup failed');
-        setLoading(false);
       }
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An error occurred during signup');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 

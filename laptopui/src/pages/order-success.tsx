@@ -32,6 +32,12 @@ export default function OrderSuccess() {
 
   if (!mounted) return null;
 
+  const handleNavigation = (path: string) => {
+    router.push(path).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <div className="fixed inset-0 z-50 isolate bg-black">
       <Head>
@@ -78,7 +84,7 @@ export default function OrderSuccess() {
                 <Link href="/dashboard" className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 font-medium hover:from-blue-500 hover:to-purple-500 transition-all duration-300">
                   View Order Status
                 </Link>
-                <Link href="/" className="block w-full bg-white/10 text-white rounded-lg px-6 py-3 font-medium hover:bg-white/20 transition-all duration-300">
+                <Link href="/" className="block w-full bg-white/10 text-white rounded-lg px-6 py-3 font-medium hover:bg-white/20 transition-all duration-300" onClick={() => handleNavigation('/')}>
                   Continue Shopping
                 </Link>
               </div>

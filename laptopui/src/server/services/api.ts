@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 import { store } from '../../redux/store';
 
 interface CartItem {
@@ -43,36 +43,40 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  withCredentials: true,
-  timeout: 10000 // 10 seconds timeout
+  withCredentials: false // Change this to false for now
 });
 
-// Add request interceptor for debugging
+// Simplified request interceptor
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    console.log(`🚀 Making ${config.method?.toUpperCase()} request to ${config.url}`);
     const token = store.getState().user.token;
-    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error: AxiosError) => {
-    console.error('❌ Request error:', error);
+  (error) => {
     return Promise.reject(error);
   }
 );
 
-// Add response interceptor for debugging
+// Add response interceptor for better error handling
 api.interceptors.response.use(
-  (response: AxiosResponse) => {
-    console.log('✅ Response received:', response.status);
-    return response;
-  },
-  (error: AxiosError) => {
-    console.error('❌ Response error:', error);
-    return Promise.reject(error);
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      // Server responded with error status
+      console.error('Response error:', error.response.data);
+      return Promise.reject(error.response.data);
+    } else if (error.request) {
+      // Request was made but no response
+      console.error('Network error:', error.message);
+      return Promise.reject(new Error('Network error - please check your connection'));
+    } else {
+      // Something else happened
+      console.error('Error:', error.message);
+      return Promise.reject(error);
+    }
   }
 );
 
@@ -92,8 +96,10 @@ export const authApi = {
       const response = await api.post('/auth/signup', data);
       return response.data;
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      throw new Error(errorMessage);
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Signup failed');
+      }
+      throw error;
     }
   },
 

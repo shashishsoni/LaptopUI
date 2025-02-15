@@ -4,20 +4,20 @@ import { connectDB } from './config/database';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 // import laptopRoutes from './routes/laptops';
+import { corsOptions } from './config/cors';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 
-// Configure CORS for production
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? 'https://your-frontend-domain.com'  // Replace with your Vercel domain
-    : 'http://localhost:3000',
-  credentials: true
-}));
+// Enable CORS for all routes
+app.use(cors(corsOptions));
 
+// Handle preflight requests
+app.options('*', cors());
+
+// Parse JSON bodies
 app.use(express.json());
 app.use(express.static('public')); // Serve static files including videos
 

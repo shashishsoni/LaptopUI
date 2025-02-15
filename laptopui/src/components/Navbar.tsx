@@ -118,6 +118,12 @@ const Navbar = () => {
     return null; // or a loading skeleton
   }
 
+  const handleNavigation = (path: string) => {
+    router.push(path).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <AnimatePresence>
       <motion.nav
@@ -135,7 +141,7 @@ const Navbar = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Enhanced Logo */}
-            <Link href="/" className="group flex items-center space-x-3">
+            <Link href="/" className="group flex items-center space-x-3" onClick={() => handleNavigation('/')}>
               <div className="relative w-10 h-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl 
                   opacity-75 group-hover:opacity-100 blur-lg transition-opacity duration-300" />
@@ -161,6 +167,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
                 <Link
+                  onClick={() => handleNavigation(item.path)}
                   key={item.name}
                   href={item.path}
                   className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 group

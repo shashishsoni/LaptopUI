@@ -1,6 +1,8 @@
 export const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: true, // Allow all origins for now
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: false, // Change this to false for now
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };

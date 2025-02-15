@@ -76,6 +76,12 @@ export default function OrdersPage() {
 
   if (!mounted) return null;
 
+  const handleNavigation = (path: string) => {
+    router.push(path).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <div className="fixed inset-0 z-50 isolate bg-black">
       <Head>
@@ -103,6 +109,7 @@ export default function OrdersPage() {
               <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-white">Your Orders</h1>
                 <Link 
+                  onClick={() => handleNavigation('/')}
                   href="/"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 font-medium hover:from-blue-500 hover:to-purple-500 transition-all duration-300"
                 >
@@ -118,6 +125,7 @@ export default function OrdersPage() {
                 <div className="text-center py-12">
                   <p className="text-gray-400 mb-6">No orders found</p>
                   <Link 
+                    onClick={() => handleNavigation('/')}
                     href="/"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 font-medium hover:from-blue-500 hover:to-purple-500 transition-all duration-300"
                   >

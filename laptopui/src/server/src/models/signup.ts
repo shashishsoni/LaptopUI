@@ -5,10 +5,10 @@ export interface SignupData {
 }
 
 export interface SignupResponse {
-  token: string;
   user: {
     id: string;
     email: string;
     fullName: string;
   };
+  token: string;
 }
