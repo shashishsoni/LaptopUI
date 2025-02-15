@@ -10,6 +10,8 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "next build",
     "vercel-build": "prisma generate --schema=./src/server/prisma/schema.prisma && next build",
+    "render:build": "cd src/server && npm install && npm run build",
+    "render:start": "cd src/server && npm start",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix"
