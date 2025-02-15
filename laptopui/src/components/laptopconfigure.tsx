@@ -307,20 +307,18 @@ const LaptopConfigure: React.FC<{ laptop: LaptopProduct }> = ({ laptop }) => {
       {/* Product Preview Section */}
       <div className="relative h-[70vh] rounded-2xl overflow-hidden group 
         shadow-2xl shadow-purple-500/10 border border-white/10">
-        {laptop.video ? (
+        {laptop.cloudinaryVideo ? (
           <VideoPlayer
-            src={laptop.video}
-            className="w-full h-full object-cover transition-transform duration-700 
-              group-hover:scale-105"
+            publicId={laptop.cloudinaryVideo}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <Image
             src={laptop.images[0]}
             alt={laptop.name}
-            width={1280}
-            height={720}
-            className="w-full h-full object-cover transition-transform duration-700 
-              group-hover:scale-105"
+            width={1920}
+            height={1080}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
         

@@ -1,42 +1,42 @@
-import { useEffect, useRef, useState } from 'react';
+'use client';
+
+import { useEffect, useRef } from 'react';
 
 interface VideoPlayerProps {
-  src: string;
+  publicId: string;
   className?: string;
+  id?: string;
+  controls?: boolean;
 }
 
-const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
+const VideoPlayer = ({ publicId, className = '', id, controls = false }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // Simply use the src directly from public folder
-  const videoSrc = `/videos/${src.split('/').pop()}`;
+  // Convert Cloudinary public ID to URL
+  const videoUrl = `https://res.cloudinary.com/dtbppvpta/video/upload/v1739634434/laptopui/${publicId}.mp4`;
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      videoElement.play().catch(error => {
+        console.warn('Autoplay prevented:', error);
+      });
+    }
+  }, []);
 
   return (
-    <div className={`relative ${className || ''}`}>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <span className="text-white">Loading...</span>
-        </div>
-      )}
+    <div className={`relative overflow-hidden ${className}`}>
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        id={id}
+        src={videoUrl}
         autoPlay
         muted
         loop
         playsInline
-        preload="auto"
-      >
-        <source src={videoSrc} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <span className="text-white/60">{error}</span>
-        </div>
-      )}
+        controls={controls}
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 };

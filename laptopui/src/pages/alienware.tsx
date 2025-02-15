@@ -217,9 +217,9 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       
       {/* Media Container */}
       <div className="relative h-full rounded-2xl overflow-hidden">
-        {activeIndex === 0 && product.video ? (
+        {activeIndex === 0 && product.cloudinaryVideo ? (
           <VideoPlayer
-            src={product.video}
+            publicId={product.cloudinaryVideo}
             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
         ) : (

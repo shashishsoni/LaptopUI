@@ -5,7 +5,7 @@ export interface AcerProduct {
   description: string;
   price: string;
   images: string[];
-  video?: string;
+  cloudinaryVideo: string;
   specs: string[];
   features: {
     icon: string;
@@ -91,7 +91,6 @@ export const acerProducts: AcerProduct[] = [
       "/image/p3.jpg",
       "/image/p4.jpg",
     ],
-    video: "/videos/Predator.mp4",
     specs: [
       "Intel® Core™ Ultra 9 275HX Processor",
       "NVIDIA® GeForce RTX™ 5090 Laptop GPU",
@@ -329,6 +328,7 @@ export const acerProducts: AcerProduct[] = [
           }
         ]
       }
-    }
+    },
+    cloudinaryVideo: "qhrpppekxqbzpyz9fiht"
   }
 ];

@@ -5,8 +5,8 @@ export interface LenovoProduct {
   description: string;
   specs: string[];
   images: string[];
-  video?: string;
   price: string;
+  cloudinaryVideo: string;
   performance: {
     label: string;
     value: string;
@@ -60,7 +60,6 @@ export const lenovoProducts: LenovoProduct[] = [
       "/image/legion-bg-3.jpg",
       "/image/lov4.jpeg"
     ],
-    video: "/videos/levono.mp4",
     price: "$2,999",
     performance: [
       { label: "Gaming", value: "Exceptional" },
@@ -157,6 +156,7 @@ export const lenovoProducts: LenovoProduct[] = [
           }
         ]
       }
-    }
-  },
+    },
+    cloudinaryVideo: "yhxbwurgyzc2jzs0cue3"
+  }
 ];

@@ -5,6 +5,7 @@ import { asusLaptops } from '../data/asusdata';
 import Image from 'next/image';
 import VideoPlayer from '../components/VideoPlayer';
 
+
 const LaptopProduct = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeLaptop, setActiveLaptop] = useState(0);
@@ -154,10 +155,21 @@ const LaptopProduct = () => {
                       // Main card content
                       <div className="relative w-full h-full">
                         {activeIndex === 0 ? (
-                          <VideoPlayer
-                            src={asusLaptops[activeLaptop].video}
-                            className="absolute inset-0 w-full h-full object-cover"
-                          />
+                          asusLaptops[activeLaptop].cloudinaryVideo ? (
+                            <VideoPlayer
+                              id={`laptop-video-${activeLaptop}`}
+                              publicId={asusLaptops[activeLaptop].cloudinaryVideo}
+                              className="absolute inset-0 w-full h-full"
+                            />
+                          ) : (
+                            <Image
+                              src={asusLaptops[activeLaptop].images[0]}
+                              alt={`${asusLaptops[activeLaptop].name} main view`}
+                              width={400}
+                              height={300}
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                          )
                         ) : (
                           <Image
                             src={asusLaptops[activeLaptop].images[activeIndex - 1]}

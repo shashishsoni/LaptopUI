@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import VideoPlayer from './VideoPlayer';
-import videos from '../utils/videoImports';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -378,10 +377,10 @@ export default function LaptopAnimationPage() {
         {/* Video Background */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <VideoPlayer
-            src={videos.asusVideo}
-            className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+            id="main-background"
+            publicId="hhk9chsep0g6jipg4hda"
+            className="absolute w-full h-full"
           />
-          {/* Overlay for better text readability */}
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
         </div>
 
@@ -396,8 +395,9 @@ export default function LaptopAnimationPage() {
             {/* Main Feature Video */}
             <div className="relative h-[400px] rounded-2xl overflow-hidden group">
               <VideoPlayer
-                src={videos.asusVideo}
-                className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                id="feature-video"
+                publicId="hhk9chsep0g6jipg4hda"
+                className="absolute w-full h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
@@ -413,7 +413,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 1 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  src="/videos/keyboard.mp4"
+                  publicId="i3dfnyp1s3ggkg96gqr4"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -425,7 +425,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 2 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  src="/videos/cooling.mp4"
+                  publicId="yq6wesj6tgccqufmcjl8"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -437,7 +437,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 3 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  src="/videos/display.mp4"
+                  publicId="vxput8tlpn5bc4xwt54k"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -449,7 +449,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 4 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  src="/videos/performance.mp4"
+                  publicId="cuucke4yyyvcrzoxftpj"
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>

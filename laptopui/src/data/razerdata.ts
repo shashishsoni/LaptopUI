@@ -5,7 +5,7 @@ export interface RazerProduct {
     description: string;
     specs: string[];
     images: string[];
-    video?: string;
+    cloudinaryVideo: string;
     price: string;
     features: {
       title: string;
@@ -85,7 +85,6 @@ export interface RazerProduct {
         "Vapor Chamber"
       ],
       images: ["/image/razer1.webp", "/image/razer2.jpg", "/image/razer3.jpg", "/image/razer4.jpg"],
-      video: "/videos/razer.mp4",
       price: "$3,499",
       performance: [
         { label: "Gaming Performance", value: "99%" },
@@ -212,6 +211,7 @@ export interface RazerProduct {
             }
           ]
         }
-      }
+      },
+      cloudinaryVideo: "xfeowb5vs8uacwgamkxc"
     }
   ];
