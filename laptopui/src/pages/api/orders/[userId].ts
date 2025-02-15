@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verifyToken } from '../../../utils/auth';
+import { verifyToken } from '../../../server/src/utils/auth';
 import prisma from '../../../server/prisma/prisma';
 import { Prisma } from '@prisma/client';
 

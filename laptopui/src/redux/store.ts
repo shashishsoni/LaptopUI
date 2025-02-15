@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer, { logout } from './slices/userSlice';
-import { isTokenExpired } from '../utils/auth';
+import { isTokenExpired } from '../server/src/utils/auth';
 
 // Safe localStorage access
 const getStorageData = () => {

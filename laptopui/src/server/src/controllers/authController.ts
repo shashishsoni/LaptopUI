@@ -3,7 +3,7 @@ import prisma from '../config/database';
 import { hashPassword, verifyPassword } from '../utils/password';
 import jwt from 'jsonwebtoken';
 import { SignupData } from '../models/signup';
-import { generateToken } from '../../../utils/auth';
+import { generateToken } from '../utils/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 
