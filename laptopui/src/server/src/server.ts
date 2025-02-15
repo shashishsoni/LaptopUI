@@ -30,9 +30,29 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.static('public')); // Serve static files including videos
 
-// Health check route
+// Health check endpoint with detailed info
 app.get('/health', (_, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    version: process.env.npm_package_version,
+    routes: [
+      { path: '/api/auth/signup', method: 'POST', description: 'User registration' },
+      { path: '/api/auth/login', method: 'POST', description: 'User login' },
+      { path: '/api/user/cart', method: 'GET', description: 'Get user cart' },
+      { path: '/api/user/orders', method: 'GET', description: 'Get user orders' }
+    ]
+  });
+});
+
+// Welcome route
+app.get('/', (_, res) => {
+  res.json({
+    message: 'Welcome to LaptopUI API',
+    docs: '/health',
+    version: '1.0.0'
+  });
 });
 
 // Routes
@@ -49,10 +69,12 @@ const PORT = parseInt(process.env.PORT || '5000', 10);
 const startServer = async () => {
   try {
     await connectDB();
+    console.log('✅ Database connected successfully');
     
     // Check if port is in use and try alternative
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`Health check: http://localhost:${PORT}/health`);
     }).on('error', (err: NodeJS.ErrnoException) => {
       if (err.code === 'EADDRINUSE') {
         console.log(`⚠️ Port ${PORT} is busy, trying ${PORT + 1}`);
