@@ -490,8 +490,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Stripe team
 - Cloudinary for media hosting
 
-## Demo video
+## 🎥 Demo Videos
 
-[Demo video](https://res.cloudinary.com/dtbppvpta/video/upload/v1739658064/mdpufvrekeua8nzp4w6o.mp4)
+### Product Demo
+![Demo Video](demo/LaptopUI%20-%20Home%20—%20Mozilla%20Firefox%202025-02-16%2003-23-06.mp4)
 
-[Demo video](https://res.cloudinary.com/dtbppvpta/video/upload/v1739660678/dhmu8p7fclwp2tu4dwxl.mp4)
+### Full Feature Walkthrough
+![Feature Walkthrough](demo/Screen%20Recording%202025-02-16%20032803.mp4)
+
+You can also view the demos on Cloudinary:
+- [Product Demo](https://res.cloudinary.com/dtbppvpta/video/upload/v1739658064/mdpufvrekeua8nzp4w6o.mp4)
+- [Feature Walkthrough](https://res.cloudinary.com/dtbppvpta/video/upload/v1739660678/dhmu8p7fclwp2tu4dwxl.mp4)
+
+
