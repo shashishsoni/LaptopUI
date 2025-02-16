@@ -5,43 +5,47 @@ A modern, full-stack e-commerce platform for gaming laptops featuring a sleek UI
 ## 🌟 Live Demo
 
 - Frontend: [https://laptop-ui-phi.vercel.app](https://laptop-ui-phi.vercel.app)
-- Backend API: [https://laptopui.onrender.com](https://laptopui.onrender.com)
+- Backend API: [https://laptopui.onrender.com](https://laptopui.onrender.com/)
 - API Documentation: [https://laptopui.onrender.com/health](https://laptopui.onrender.com/health)
 
 ## ✨ Key Features
 
 - **User Authentication**
-  - Secure signup/login with JWT
-  - Password hashing with Argon2
-  - Protected routes
   
+      - Secure signup/login with JWT
+      - Password hashing with Argon2
+      - Protected routes
+    
 - **Product Management**
-  - Dynamic product catalog
-  - Advanced filtering and search
-  - Real-time stock updates
+      
+      - Dynamic product catalog
+      - Advanced filtering and search
+      - Real-time stock updates
   
 - **Shopping Experience**
-  - Interactive shopping cart
-  - Secure checkout process
-  - Order tracking
-  - Wishlist functionality
+    
+      - Interactive shopping cart
+      - Secure checkout process
+      - Order tracking
   
 - **Payment Processing**
-  - Stripe integration
-  - Secure payment gateway
-  - Multiple payment methods
+
+      - Stripe integration
+      - Secure payment gateway
+      - Multiple payment methods
   
 - **UI/UX**
-  - Responsive design
-  - Smooth animations
-  - Dark mode
-  - Loading states
+  
+      - Responsive design
+      - Smooth animations
+      - Loading states
   
 - **Admin Features**
-  - Dashboard analytics
-  - Order management
-  - Product CRUD operations
-  - User management
+  
+      - Dashboard analytics
+      - Order management
+      - Product CRUD operations
+      - User management
 
 ## 🛠️ Technology Stack
 
@@ -80,7 +84,7 @@ A modern, full-stack e-commerce platform for gaming laptops featuring a sleek UI
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/laptopui.git
+git clone https://github.com/shashishsoni/laptopui.git
 cd laptopui
 ```
 
@@ -234,7 +238,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - [GitHub](https://github.com/yourusername)
+- SHASHISH SONI - [GitHub](https://github.com/shashishsoni)
 
 ## 🙏 Acknowledgments
 
@@ -246,18 +250,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎥 Demo Videos
 
-<!-- Alternative with HTML5 video tag for better compatibility -->
-<video width="640" height="360" controls>
-  <source src="demo/LaptopUI - Home — Mozilla Firefox 2025-02-16 03-23-06.mp4" type="video/mp4">
-</video>
+### Product Demo
+
+https://github.com/user-attachments/assets/9e3019aa-dd49-40e4-bf22-92a4a58e839f
 
 ### Feature Walkthrough
-<video width="640" height="360" controls>
-  <source src="demo/Screen Recording 2025-02-16 032803__75pct_smaller.mp4" type="video/mp4">
-</video>
 
-You can also view the demos directly:
-- [Product Demo](https://res.cloudinary.com/dtbppvpta/video/upload/v1739658064/mdpufvrekeua8nzp4w6o.mp4)
-- [Feature Walkthrough](https://res.cloudinary.com/dtbppvpta/video/upload/v1739660678/dhmu8p7fclwp2tu4dwxl.mp4)
+https://github.com/user-attachments/assets/1d95baa0-cbc5-4e61-bf8a-4eca0a7374ac
 
 
