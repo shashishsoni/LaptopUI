@@ -492,6 +492,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Demo video
 
-https://res.cloudinary.com/dtbppvpta/video/upload/v1739658064/mdpufvrekeua8nzp4w6o.mp4
 
-https://res.cloudinary.com/dtbppvpta/video/upload/v1739660678/dhmu8p7fclwp2tu4dwxl.mp4
