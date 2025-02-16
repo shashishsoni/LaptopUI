@@ -246,21 +246,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎥 Demo Videos
 
-### Product Demo
-https://github.com/shashishsoni/LaptopUI/assets/videos/demo.mp4
-
-### Feature Walkthrough
-https://github.com/shashishsoni/LaptopUI/assets/videos/feature-walkthrough.mp4
-
 <!-- Alternative with HTML5 video tag for better compatibility -->
 <video width="640" height="360" controls>
-  <source src="https://res.cloudinary.com/dtbppvpta/video/upload/v1739658064/mdpufvrekeua8nzp4w6o.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+  <source src="demo/LaptopUI - Home — Mozilla Firefox 2025-02-16 03-23-06.mp4" type="video/mp4">
 </video>
 
+### Feature Walkthrough
 <video width="640" height="360" controls>
-  <source src="https://res.cloudinary.com/dtbppvpta/video/upload/v1739660678/dhmu8p7fclwp2tu4dwxl.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+  <source src="demo/Screen Recording 2025-02-16 032803__75pct_smaller.mp4" type="video/mp4">
 </video>
 
 You can also view the demos directly:
