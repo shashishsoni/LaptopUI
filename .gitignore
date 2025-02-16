@@ -1,0 +1,10 @@
+# Existing content...
+demo/
+*.mp4
+*.mov
+*.avi
+*.wmv
+public/videos/
+
+# Except small video files if needed
+!public/videos/preview/*.mp4
