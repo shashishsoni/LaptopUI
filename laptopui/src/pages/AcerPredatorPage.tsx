@@ -174,7 +174,7 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       {/* Media Content */}
       {activeIndex === 0 && product.cloudinaryVideo ? (
         <VideoPlayer
-          publicId={product.cloudinaryVideo}
+          publicId={"https://ucarecdn.com/38209e85-92ce-4e10-8c98-e38e4443ea55/PredatorHelios.mp4"}
           className="w-full h-full object-cover"
         />
       ) : (

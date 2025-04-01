@@ -206,7 +206,7 @@ export default function LaptopAnimationPage() {
               <div className="flex-none w-[280px] bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-cyan-500/50 transition-all duration-300 group">
                 <div className="flex items-center mb-4">
                   <svg className="w-8 h-8 text-cyan-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                   </svg>
                   <h3 className="text-cyan-400 text-xl font-semibold">Processor</h3>
                 </div>
@@ -378,7 +378,7 @@ export default function LaptopAnimationPage() {
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <VideoPlayer
             id="main-background"
-            publicId="hhk9chsep0g6jipg4hda"
+            publicId={"https://ucarecdn.com/82a58a9b-9ae4-49ec-8633-8b445a475de9/bgvideo.mp4"}
             className="absolute w-full h-full"
           />
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
@@ -396,7 +396,7 @@ export default function LaptopAnimationPage() {
             <div className="relative h-[400px] rounded-2xl overflow-hidden group">
               <VideoPlayer
                 id="feature-video"
-                publicId="hhk9chsep0g6jipg4hda"
+                publicId={"https://ucarecdn.com/82a58a9b-9ae4-49ec-8633-8b445a475de9/bgvideo.mp4"}
                 className="absolute w-full h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -413,7 +413,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 1 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  publicId="i3dfnyp1s3ggkg96gqr4"
+                  publicId={"https://ucarecdn.com/47713f48-0957-478d-b2df-40008ed0cc25/keyboard.webm"}
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -425,7 +425,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 2 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  publicId="yq6wesj6tgccqufmcjl8"
+                  publicId={"https://ucarecdn.com/f458080d-aece-4ff2-8b0c-22677e34811e/cooling.mp4"}
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -437,7 +437,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 3 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  publicId="vxput8tlpn5bc4xwt54k"
+                  publicId={"https://ucarecdn.com/4fdb7fd6-aa99-4b5e-b89d-a262317b4348/saveinstacc_720paerocreatorlaptoprtx30officialtrailer.mp4"}
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -449,7 +449,7 @@ export default function LaptopAnimationPage() {
               {/* Video Card 4 */}
               <div className="relative h-[190px] rounded-xl overflow-hidden group">
                 <VideoPlayer
-                  publicId="cuucke4yyyvcrzoxftpj"
+                  publicId={"https://ucarecdn.com/8d37f6bd-8f34-4aba-99cf-a6df41441c78/performance.mp4"}
                   className="absolute w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
@@ -480,4 +480,3 @@ export default function LaptopAnimationPage() {
     </div>
   );
 }
-

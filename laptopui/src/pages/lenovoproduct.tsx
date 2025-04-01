@@ -260,7 +260,12 @@ const MainCard = React.memo(({ product, activeIndex, category, price }: {
       <div className="relative h-full rounded-2xl overflow-hidden">
         {activeIndex === 0 && product.cloudinaryVideo ? (
           <VideoPlayer
-            publicId={product.cloudinaryVideo}
+            publicId={"https://ucarecdn.com/82a58a9b-9ae4-49ec-8633-8b445a475de9/bgvideo.mp4"}
+            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : activeIndex === 1 ? (
+          <VideoPlayer
+            publicId={"https://ucarecdn.com/82a58a9b-9ae4-49ec-8633-8b445a475de9/bgvideo.mp4"}
             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
         ) : (

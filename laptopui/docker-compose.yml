@@ -1,48 +1,31 @@
 version: '3.8'
 
 services:
-  web:
-    image: laptopui-prod
-    build: 
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - NODE_ENV=production
-        - NPM_CONFIG_LOGLEVEL=verbose
-    ports:
-      - "3000:3000"
-      - "5000:5000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL}
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_JWT_SECRET=${NEXT_PUBLIC_JWT_SECRET}
-      - JWT_SECRET=${NEXT_PUBLIC_JWT_SECRET}
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-
-  dev:
-    image: laptopui-dev
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-      - "5000:5000"
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=${DATABASE_URL}
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_JWT_SECRET=${NEXT_PUBLIC_JWT_SECRET}
-      - JWT_SECRET=${NEXT_PUBLIC_JWT_SECRET}
+      - NEXT_PUBLIC_API_URL=http://backend:5000/api
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./src/server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=your_mongodb_url
+      - JWT_SECRET=your_jwt_secret
+      - PORT=5000
+    volumes:
+      - ./src/server:/app
+      - /app/node_modules
 
 networks:
   default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16 
+    driver: bridge 

@@ -1,74 +1,56 @@
-# Stage 1: Builder
-FROM node:20-slim AS builder
+# Frontend Dockerfile
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Install curl and git (git is often needed for some npm packages)
-RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+# Install dependencies required for node-gyp
+RUN apk add --no-cache python3 make g++ git
 
-# Configure npm with more reliable settings
-RUN npm cache clean --force \
-    && npm config set fetch-retries 5 \
-    && npm config set fetch-retry-mintimeout 20000 \
-    && npm config set fetch-retry-maxtimeout 120000 \
-    && npm config set fund false \
-    && npm config set audit false \
-    && npm config set legacy-peer-deps true \
-    && npm config set strict-ssl false \
-    && npm config set registry https://registry.npmjs.org/
+# Set npm configuration for better network handling
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set strict-ssl false && \
+    npm config set registry https://registry.npmjs.org/
 
-# Copy package files first for better caching
+# Copy package files and npmrc
 COPY package*.json ./
-COPY package-lock.json* ./
+COPY .npmrc ./
 
-# Create prisma directory structure
-RUN mkdir -p ./src/server/prisma
-
-# Copy schema to correct location
-COPY src/server/prisma/schema.prisma ./src/server/prisma/schema.prisma
-
-# Install dependencies with fallback
-RUN npm ci --omit=dev || \
-    (npm config set registry http://registry.npmjs.org/ && npm ci --omit=dev) || \
-    (npm config set registry http://registry.npmjs.com/ && npm ci --omit=dev)
-
-# Copy all files
+# Copy source files
 COPY . .
 
-# Generate Prisma client with correct binary targets
-RUN npx prisma generate --schema=./src/server/prisma/schema.prisma
+# Install dependencies with fallback
+RUN npm install --legacy-peer-deps --verbose || \
+    (npm cache clean --force && npm install --legacy-peer-deps --verbose)
 
-# Build Next.js
+# Build the application
 RUN npm run build
 
-# Stage 2: Production
-FROM node:20-slim
+# Production image
+FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y \
-    openssl \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy from builder
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next ./.next
+# Copy necessary files from builder
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/src ./src
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
-# Expose ports
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Create and set proper permissions
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs && \
+    chown -R nextjs:nodejs /app
+
+USER nextjs
+
 EXPOSE 3000
-EXPOSE 5000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/api/health || exit 1
-
-# Start application
-CMD ["npm", "run", "start"]
+# Start the application
+CMD ["npm", "run", "dev"]

@@ -74,7 +74,7 @@ export const asusLaptops: LaptopProduct[] = [
     name: "ROG Strix SCAR 17",
     description: "Experience next-level gaming with our most powerful laptop ever.",
     images: ["/image/asus1.webp", "/image/asus2.jpg", "/image/asus3.jpg", "/image/asus4.png"],
-    cloudinaryVideo: "ytdnmgrjurvrkxc9bybq",
+    cloudinaryVideo: "https://ucarecdn.com/c22489ed-db43-459c-9c88-ca65dbc9d757/asusvideo.mp4",
     price: "$2,499",
     specs: [
       {
@@ -282,7 +282,7 @@ export const asusLaptops: LaptopProduct[] = [
     name: "Zenbook S 16 OLED",
     description: "Experience luxury computing with the world's thinnest 16-inch OLED laptop.",
     images: ["/image/zen1.webp", "/image/zen2.webp", "/image/zen3.jpg", "/image/zen4.webp"],
-    cloudinaryVideo: "g87u5g0nsofvo2mv2wzg",
+    cloudinaryVideo: "https://ucarecdn.com/fc482217-e090-4041-868e-cab0d25e3fb5/zenbook.mp4",
     price: "$1,999",
     specs: [
       {
@@ -406,7 +406,7 @@ export const asusLaptops: LaptopProduct[] = [
     name: "ExpertBook B9",
     description: "Ultra-lightweight business laptop for the modern professional.",
     images: ["/image/exp1.jpg", "/image/exp2.avif", "/image/exp3.webp", "/image/exp4.jpg"],
-    cloudinaryVideo: "tmzpj1ljlfim5v8vfcdk",
+    cloudinaryVideo: "https://ucarecdn.com/f2a73b6a-c387-4062-9863-2ead6cc94bf1/expertbook.mp4",
     price: "$1,799",
     specs: [
       {

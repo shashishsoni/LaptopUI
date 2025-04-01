@@ -12,8 +12,8 @@ interface VideoPlayerProps {
 const VideoPlayer = ({ publicId, className = '', id, controls = false }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Convert Cloudinary public ID to URL
-  const videoUrl = `https://res.cloudinary.com/dtbppvpta/video/upload/v1739634434/laptopui/${publicId}.mp4`;
+  // For debugging
+  console.log('Video URL being used:', publicId);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -29,7 +29,7 @@ const VideoPlayer = ({ publicId, className = '', id, controls = false }: VideoPl
       <video
         ref={videoRef}
         id={id}
-        src={videoUrl}
+        src={publicId}
         autoPlay
         muted
         loop
@@ -41,4 +41,4 @@ const VideoPlayer = ({ publicId, className = '', id, controls = false }: VideoPl
   );
 };
 
-export default VideoPlayer; 
+export default VideoPlayer;

@@ -157,6 +157,6 @@ export const lenovoProducts: LenovoProduct[] = [
         ]
       }
     },
-    cloudinaryVideo: "yhxbwurgyzc2jzs0cue3"
+    cloudinaryVideo: "https://ucarecdn.com/82a58a9b-9ae4-49ec-8633-8b445a475de9/bgvideo.mp4"
   }
 ];

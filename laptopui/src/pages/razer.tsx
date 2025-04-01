@@ -180,7 +180,7 @@ const MainCard: React.FC<{
       <div className="relative h-full rounded-2xl overflow-hidden">
         {activeIndex === 0 && product.cloudinaryVideo ? (
           <VideoPlayer
-            publicId={product.cloudinaryVideo}
+            publicId={"https://ucarecdn.com/d0e932ff-a950-4583-83e9-0263234ebc53/razer.mp4"}
             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
         ) : (

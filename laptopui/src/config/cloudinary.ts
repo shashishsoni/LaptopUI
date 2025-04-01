@@ -1,12 +1,6 @@
-import { Cloudinary } from '@cloudinary/url-gen';
+// This file is kept as a placeholder to prevent import errors
+// Cloudinary functionality has been removed
 
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-  },
-  url: {
-    secure: true
-  }
-});
+const cld = null;
 
-export default cld; 
+export default cld;

@@ -1,6 +1,13 @@
-node_modules
-.next
 .git
+.gitignore
+.next
+.env
+.env.local
+node_modules
+README.md
+.dockerignore
+Dockerfile
+docker-compose.yml
 .env*
 *.log
 .DS_Store
@@ -11,7 +18,5 @@ npm-debug.log*
 .cache
 coverage
 .nyc_output
-.dockerignore
 Dockerfile*
-docker-compose*
-README.md 
+docker-compose* 
